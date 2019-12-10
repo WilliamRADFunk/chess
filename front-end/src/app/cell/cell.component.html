@@ -1,0 +1,13 @@
+<div class="cell-size align-middle text-center"
+	[class.off-square]="!isOnSquare"
+	[class.on-square]="isOnSquare"
+	[class.hovered-cell]="highlighted"
+	[class.tracked-cell]="tracked">
+	<div class="font-weight-bold">
+        <chess-man
+            *ngIf="isOnSquare"
+            [cell]="cell"
+            [playerNumber]="playerNumber"
+            [style]="style"></chess-man>
+	</div>
+</div>

@@ -1,0 +1,60 @@
+.rotate {
+    transform: rotate(180deg);
+}
+.red-team-color,
+.red-knight-color {
+    background-image: url("../../assets/images/frogo-red.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 4vw;
+    height: 4vw;
+    min-height: 4vw;
+    min-width: 4vw;
+    width: 4vw;
+
+    &.king {
+        background-image: url("../../assets/images/frogo-red-king.png");
+    }
+}
+
+.red-knight-color {
+    background-image: url("../../assets/images/red-knight.png");
+
+    &.king {
+        background-image: url("../../assets/images/red-knight-crown-small.png");
+    }
+}
+
+.silver-team-color,
+.silver-knight-color {
+    background-image: url("../../assets/images/frogo-silver.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 4vw;
+    height: 4vw;
+    min-height: 4vw;
+    min-width: 4vw;
+    width: 4vw;
+
+    &.king {
+        background-image: url("../../assets/images/frogo-silver-king.png");
+    }
+}
+
+.silver-knight-color {
+    background-image: url("../../assets/images/silver-knight.png");
+
+    &.king {
+        background-image: url("../../assets/images/silver-knight-crown-small.png");
+    }
+}
+
+.fa,
+.fa-chevron-circle-up {
+    &.red {
+        color: #FF0000;
+    }
+    &.silver {
+        color: #696666;
+    }
+}
