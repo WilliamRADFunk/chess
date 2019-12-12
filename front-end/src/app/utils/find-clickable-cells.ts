@@ -17,16 +17,12 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
     if (!chainLength) {
         let playerPieces = findPiecesForPlayer(direction, boardState);
         playerPieces = playerPieces.filter(cell => {
-            // If a pawn, make sure it isn't blocked by a piece.
-            if (cell.value === 1) {
-                if (direction === 1 ) {
-
-                }
-            } else {
-                return direction === 1
-                    ? upwardPathValidCheck(direction, cell, cellStates)
-                    : downwardPathValidCheck(direction, cell, cellStates);
+            // If a piece, check to make sure it has any moves available to it. If none, don't let it be clickable.
+            if (cell.value) {
+                // return !!checkForAvailableMoves(cell, boardState);
+                return true;
             }
+            return false;
         });
         const ids = [];
         playerPieces.forEach(cell => {
@@ -34,21 +30,6 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
         });
         return ids;
     }
-    let possibleMoves = [];
-    // If a king, combine upward and downward, otherwise restrict to direction of player.
-    if (moveChainCells[0].value === 2) {
-        possibleMoves = [
-            ...upwardPathValidOptions(direction, moveChainCells[chainLength - 1], cellStates),
-            ...downwardPathValidOptions(direction, moveChainCells[chainLength - 1], cellStates)
-        ];
-    } else {
-        possibleMoves = direction === 1
-            ? upwardPathValidOptions(direction, moveChainCells[chainLength - 1], cellStates)
-            : downwardPathValidOptions(direction, moveChainCells[chainLength - 1], cellStates);
-    }
-    // If the last move in the move chain was to jump an opponent piece, make sure only additional jumps are available.
-    if (chainLength > 1) {
-        possibleMoves = possibleMoves.filter(move => Math.abs(move - moveChainCells[chainLength - 1].id) > 11);
-    }
-    return possibleMoves;
+    // return findPossibleMovesForPiece(moveChainCells[0], boardState);
+    return [];
 }
