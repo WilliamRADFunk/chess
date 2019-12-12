@@ -8,16 +8,40 @@ export function resetBoard() {
                 player: 0,
                 playerColor: '',
                 position: [row, col],
-                value: (row % 2) + (col % 2) === 1 ? 1 : 0
+                value: 0
             };
-            if (row < 3) {
-                cell.player = cell.value ? 2 : 0;
-                cell.playerColor = cell.value ? 'black' : '';
-            } else if (row > 4) {
-                cell.player = cell.value;
-                cell.playerColor = cell.value ? 'white' : '';
-            } else {
-                cell.value = 0;
+            if (row < 2) {
+                cell.player = 2;
+                cell.playerColor = 'black';
+                if (row === 1) {
+                    cell.value = 1;
+                } else if (!col || col === 7) {
+                    cell.value = 2;
+                } else if (col === 1 || col === 6) {
+                    cell.value = 3;
+                } else if (col === 2 || col === 5) {
+                    cell.value = 4;
+                } else if (col === 3) {
+                    cell.value = 5;
+                } else if (col === 4) {
+                    cell.value = 6;
+                }
+            } else if (row > 5) {
+                cell.player = 1;
+                cell.playerColor = 'white';
+                if (row === 6) {
+                    cell.value = 1;
+                } else if (!col || col === 7) {
+                    cell.value = 2;
+                } else if (col === 1 || col === 6) {
+                    cell.value = 3;
+                } else if (col === 2 || col === 5) {
+                    cell.value = 4;
+                } else if (col === 3) {
+                    cell.value = 6;
+                } else if (col === 4) {
+                    cell.value = 5;
+                }
             }
             board.cellStates[row][col] = cell;
         }

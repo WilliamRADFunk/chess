@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-center">
         <div class="col text-center mt-5">
-            <span class="h1 mb-2">Freckers</span>
+            <span class="h1 mb-2">Chess</span>
         </div>
     </div>
     <div class="d-flex justify-content-center">
         <div class="col text-center text-white mt-2">
-            <span class="h6 mb-2"><i>People currently playing Freckers: {{ peoplePlaying }}</i></span>
+            <span class="h6 mb-2"><i>People currently playing Chess: {{ peoplePlaying }}</i></span>
         </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -101,8 +101,8 @@
     <div class="d-flex justify-content-center">
         <div class="col text-center text-white mt-1">
             <div class="btn-group btn-group-lg d-lg-inline-block">
-                <button *ngFor="let choice of [{ id: 1, class: 'red-team-color' }, { id: 2, class: 'fa fa-chevron-circle-up fa-lg' }, { id: 3, class: 'red-knight-color' }]"
-                    class="btn text-shadow shadow"
+                <button *ngFor="let choice of [{ id: 1, class: 'knight-1' }, { id: 2, class: 'knight-2' }, { id: 3, class: 'knight-3' }]"
+                    class="btn text-shadow shadow black-team-color"
                     [class.btn-success]="activeStyle === choice.id"
                     [class.btn-info]="activeStyle !== choice.id"
                     (click)="styleChange(choice.id)"
@@ -111,7 +111,7 @@
                     tooltipClass="chess-tooltip"
                     placement="top"
                     type="button">
-                        <div [class]="choice.class"></div>
+                        <span [class]="choice.class"></span>
                     </button>
             </div>
         </div>

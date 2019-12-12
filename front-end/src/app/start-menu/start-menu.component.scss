@@ -14,29 +14,29 @@
     text-shadow: 0.5px 0.5px #FFFFFF;
   }
 }
-.fa,
-.fa-chevron-circle-up {
-    height: 20px;
-    margin-left: -4px;
-    min-height: 20px;
-    min-width: 20px;
-    width: 20px;
-}
 
-.red-team-color,
-.red-knight-color {
-    background-image: url("../../assets/images/frogo-red.png");
+.black-team-color > span {
     background-repeat: no-repeat;
-    background-position: left top;
-    background-size: 30px;
-    height: 30px;
-    min-height: 30px;
-    min-width: 30px;
-    width: 30px;
-}
+    background-position: center;
+    background-size: 100%;
+    display: block;
+    height: 50px;
+    min-height: 50px;
+    min-width: 50px;
+    width: 50px;
 
-.red-knight-color {
-  background-image: url("../../assets/images/red-knight.png");
+    &.knight-1 {
+        background-image: url("../../assets/images/chess-pieces-01/chess-king-black.png");
+    }
+
+    &.knight-2 {
+        background-image: url("../../assets/images/chess-pieces-02/black_knight.png");
+        background-size: 50%;
+    }
+
+    &.knight-3 {
+        background-image: url("../../assets/images/chess-pieces-03/bishop_gold.png");
+    }
 }
 
 @media only screen and (max-width: 767px) {

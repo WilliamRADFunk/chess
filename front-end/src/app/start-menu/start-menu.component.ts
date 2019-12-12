@@ -126,13 +126,13 @@ export class StartMenuComponent implements OnDestroy, OnInit {
     public getTooltipStyleMsg(choice: number): string {
         switch (choice) {
             case 1: {
-                return `Frog chess or "freckers"`;
+                return `Statuesque chess`;
             }
             case 2: {
                 return `Classic chess`;
             }
             case 3: {
-                return `Knight chess`;
+                return `Medeival chess`;
             }
             default: {
                 return 'Not a valid option';
