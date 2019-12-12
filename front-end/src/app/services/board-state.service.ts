@@ -10,7 +10,7 @@ import { aiDecider } from '../utils/ai-decider';
 import { checkForEndGame } from '../utils/check-for-endgame';
 import { cloneBoard } from '../utils/clone-board';
 import { convertIdsToCells } from '../utils/convert-ids-to-cells';
-import { crownKings } from '../utils/crown-kings';
+import { tradePiece } from '../utils/trade-piece';
 import { findClickableCells } from '../utils/find-clickable-cells';
 import { makeMoves } from '../utils/make-moves';
 import { resetBoard } from '../utils/reset-board';
@@ -122,7 +122,7 @@ export class BoardStateService {
         this._moveChainCells.length = 0;
         this._moveChainIds.next([]);
 
-        crownKings(this._boardState.value);
+        tradePiece(this._boardState.value);
         this._activePlayer.next(this._activePlayer.value === 1 ? 2 : 1);
 
         this._clickableCellIds.next(findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));

@@ -1,6 +1,6 @@
 import { Board } from '../models/board';
 
-export function crownKings(boardState: Board) {
+export function tradePiece(boardState: Board) {
     const cellStates = boardState.cellStates;
     cellStates[0].forEach(cell => {
         if (cell.player === 1 && cell.value === 1) {
