@@ -4,6 +4,7 @@ export function resetBoard() {
         board.cellStates[row] = [];
         for (let col = 0; col < 8; col++) {
             const cell = {
+                dirty: false,
                 id: Number(`${row}${col}`),
                 player: 0,
                 playerColor: '',
