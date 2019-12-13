@@ -15,9 +15,23 @@ export function findAvailableMoves(cell: Cell, boardState: Board) {
         case 1: {
             if (cell.dirty) { // Only one space forward allowed
                 const potentialRow = position[0] + direction;
-                const potentialColsForAttack = [position[1] - 1, position[1] + 1];
-                const potentialColForMove = position[1];
+                // TODO: Check out of bounds.
+                const moveCell = cellStates[potentialRow][position[1]];
+                const attackCells = [cellStates[potentialRow][position[1] - 1], cellStates[potentialRow][position[1] + 1]];
+                if (attackCells[0].value && attackCells[0].player !== cell.player) {
+                    // TODO: Check for check
+                    availableMoves.push(attackCells[0]);
+                }
+                
+                if (attackCells[1].value && attackCells[1].player !== cell.player) {
+                    // TODO: Check for check
+                    availableMoves.push(attackCells[1]);
+                }
 
+                if (!moveCell.value) {
+                    // TODO: Check for check
+                    availableMoves.push(moveCell);
+                }
             } else { // Has option to move two spaces forward
 
             }
