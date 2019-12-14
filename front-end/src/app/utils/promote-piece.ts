@@ -1,6 +1,6 @@
 import { Board } from '../models/board';
 
-export function tradePiece(boardState: Board) {
+export function promotePiece(boardState: Board) {
     const cellStates = boardState.cellStates;
     cellStates[0].forEach(cell => {
         if (cell.player === 1 && cell.value === 1) {

@@ -1,9 +1,10 @@
-import { Board } from '../models/board';
-import { Cell } from '../models/cell';
-import { findAllStraightMoves } from './find-all-straight-moves';
+import { findAllDiagMoves } from './find-all-diag-moves';
+import { findAllKingMoves } from './find-all-king-moves';
 import { findAllKnightMoves } from './find-all-knight-moves';
 import { findAllPawnMoves } from './find-all-pawn-moves';
-import { findAllDiagMoves } from './find-all-diag-moves';
+import { findAllStraightMoves } from './find-all-straight-moves';
+import { Board } from '../models/board';
+import { Cell } from '../models/cell';
 
 export function findAvailableMoves(cell: Cell, boardState: Board): Cell[] {
     const availableMoves: Cell[] = [];
@@ -38,6 +39,7 @@ export function findAvailableMoves(cell: Cell, boardState: Board): Cell[] {
         }
         // King
         case 6: {
+            availableMoves.push(...findAllKingMoves(cell, boardState));
             break;
         }
     }

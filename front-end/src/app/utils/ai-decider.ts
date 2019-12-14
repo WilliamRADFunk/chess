@@ -2,7 +2,7 @@ import { aiMove } from './ai-move';
 import { cloneBoard } from './clone-board';
 import { convertBoardToKey } from './convert-board-to-key';
 import { convertIdsToCells } from './convert-ids-to-cells';
-import { tradePiece } from './trade-piece';
+import { promotePiece } from './promote-piece';
 import { findMaxScore } from './find-max-score';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
@@ -21,7 +21,7 @@ export function aiDecider(
     getAllMoveChains(board, aiPlayer, startingPieces, 4).forEach(chain => {
         const newBoard = cloneBoard(board);
         makeMoves(newBoard, chain, convertIdsToCells(newBoard, chain));
-        tradePiece(newBoard);
+        promotePiece(newBoard);
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined === memoizationTable[bKey]) {
             memoizationTable[bKey] = aiMove(

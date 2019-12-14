@@ -1,5 +1,4 @@
 import { Board } from '../models/board';
-import { checkForCycles } from './check-for-cycles';
 import { convertIdsToCells } from './convert-ids-to-cells';
 import { findClickableCells } from './find-clickable-cells';
 
@@ -13,12 +12,10 @@ export function getMoveChains(board: Board, currPlayer: number, previousChain: n
     const results = [];
     newMoves.forEach(move => {
         const prospectiveChain = [...previousChain, move];
-        if (!checkForCycles(prospectiveChain)) {
-            console.log('prospectiveChain', prospectiveChain);
-            getMoveChains(board, currPlayer, [...previousChain, move], depth).forEach(chain => {
-                results.push(chain);
-            });
-        }
+        console.log('prospectiveChain', prospectiveChain);
+        getMoveChains(board, currPlayer, [...previousChain, move], depth).forEach(chain => {
+            results.push(chain);
+        });
     });
     return [previousChain, ...results];
 }

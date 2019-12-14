@@ -2,7 +2,7 @@ import { checkForEndGame } from './check-for-endgame';
 import { cloneBoard } from './clone-board';
 import { convertBoardToKey } from './convert-board-to-key';
 import { convertIdsToCells } from './convert-ids-to-cells';
-import { tradePiece } from './trade-piece';
+import { promotePiece } from './promote-piece';
 import { findClickableCells } from './find-clickable-cells';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
@@ -48,7 +48,7 @@ export function aiMove(
     getAllMoveChains(board, currPlayer, clickableIds, depth).forEach(chain => {
         const newBoard = cloneBoard(board);
         makeMoves(newBoard, chain, convertIdsToCells(newBoard, chain));
-        tradePiece(newBoard);
+        promotePiece(newBoard);
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined !== memoizationTable[bKey]) {
             scores.push(memoizationTable[bKey]);
