@@ -1,7 +1,12 @@
 import { Board } from '../models/board';
 import { Cell } from '../models/cell';
+import { checkForCheck } from './check-for-check';
+import { findAllStraightMoves } from './find-all-straight-moves';
+import { findAllKnightMoves } from './find-all-knight-moves';
+import { findAllPawnMoves } from './find-all-pawn-moves';
+import { findAllDiagMoves } from './find-all-diag-moves';
 
-export function findAvailableMoves(cell: Cell, boardState: Board) {
+export function findAvailableMoves(cell: Cell, boardState: Board): Cell[] {
     const cellStates = boardState.cellStates;
     const position = cell.position;
     const pieceType = cell.value;
@@ -13,44 +18,28 @@ export function findAvailableMoves(cell: Cell, boardState: Board) {
     switch (pieceType) {
         // Pawn
         case 1: {
-            if (cell.dirty) { // Only one space forward allowed
-                const potentialRow = position[0] + direction;
-                // TODO: Check out of bounds.
-                const moveCell = cellStates[potentialRow][position[1]];
-                const attackCells = [cellStates[potentialRow][position[1] - 1], cellStates[potentialRow][position[1] + 1]];
-                if (attackCells[0].value && attackCells[0].player !== cell.player) {
-                    // TODO: Check for check
-                    availableMoves.push(attackCells[0]);
-                }
-                
-                if (attackCells[1].value && attackCells[1].player !== cell.player) {
-                    // TODO: Check for check
-                    availableMoves.push(attackCells[1]);
-                }
-
-                if (!moveCell.value) {
-                    // TODO: Check for check
-                    availableMoves.push(moveCell);
-                }
-            } else { // Has option to move two spaces forward
-
-            }
+            availableMoves.push(...findAllPawnMoves(cell, boardState, direction));
             break;
         }
         // Rook
         case 1: {
+            availableMoves.push(...findAllStraightMoves(cell, boardState));
             break;
         }
         // Knight
         case 1: {
+            availableMoves.push(...findAllKnightMoves(cell, boardState));
             break;
         }
         // Bishop
         case 1: {
+            availableMoves.push(...findAllDiagMoves(cell, boardState));
             break;
         }
         // Queen
         case 1: {
+            availableMoves.push(...findAllStraightMoves(cell, boardState));
+            availableMoves.push(...findAllDiagMoves(cell, boardState));
             break;
         }
         // King
@@ -58,4 +47,6 @@ export function findAvailableMoves(cell: Cell, boardState: Board) {
             break;
         }
     }
+
+    return availableMoves;
 }
