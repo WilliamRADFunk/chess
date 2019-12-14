@@ -5,7 +5,6 @@ import { checkForCheck } from './check-for-check';
 export function findAllPawnMoves(cell: Cell, boardState: Board, direction: number): Cell[] {
     const cellStates = boardState.cellStates;
     const position = cell.position;
-
     const availableMoves = [];
 
     // Dirty or not, pawns can move up at least one space.

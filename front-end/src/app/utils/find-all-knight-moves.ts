@@ -5,19 +5,18 @@ import { checkForCheck } from './check-for-check';
 export function findAllKnightMoves(cell: Cell, boardState: Board): Cell[] {
     const cellStates = boardState.cellStates;
     const position = cell.position;
-
     const availableMoves = [];
 
     const theEightMovePositions = [
         // Vertical         Horizonal
-        [position[0] + 2, position[1] - 1], // 2 x Up - 1 x Left
-        [position[0] + 2, position[1] + 1], // 2 x Up - 1 x Right
-        [position[0] + 1, position[1] + 2], // 2 x Right - 1 x Up
-        [position[0] - 1, position[1] + 2], // 2 x Right - 1 x Down
-        [position[0] - 2, position[1] - 1], // 2 x Down - 1 x Left
-        [position[0] - 2, position[1] + 1], // 2 x Down - 1 x Right
-        [position[0] + 1, position[1] - 2], // 2 x Left - 1 x Up
-        [position[0] - 1, position[1] - 2], // 2 x Left - 1 x Down
+        [position[0] + 2, position[1] - 1], // 2 x Down - 1 x Left
+        [position[0] + 2, position[1] + 1], // 2 x Down - 1 x Right
+        [position[0] + 1, position[1] + 2], // 2 x Right - 1 x Down
+        [position[0] - 1, position[1] + 2], // 2 x Right - 1 x Up
+        [position[0] - 2, position[1] - 1], // 2 x Up - 1 x Left
+        [position[0] - 2, position[1] + 1], // 2 x Up - 1 x Right
+        [position[0] + 1, position[1] - 2], // 2 x Left - 1 x Down
+        [position[0] - 1, position[1] - 2], // 2 x Left - 1 x Up
     ];
     theEightMovePositions.forEach(move => {
         const row = move[0];

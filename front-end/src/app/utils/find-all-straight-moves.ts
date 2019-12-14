@@ -5,15 +5,14 @@ import { checkForCheck } from './check-for-check';
 export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
     const cellStates = boardState.cellStates;
     const position = cell.position;
-    const movesDown = position[0] - 0;
+    const movesDown = 7 - position[0];
     const movesLeft = position[1] - 0;
     const movesRight = 7 - position[1];
-    const movesUp = 7 - position[0];
-
+    const movesUp = position[0] - 0;
     const availableMoves = [];
-    // Down
+    // Up
     let start = position[0];
-    for (let i = 1; i <= movesDown; i++) {
+    for (let i = 1; i <= movesUp; i++) {
         const potentialCell = cellStates[start - i][position[1]];
         // An empty space.
         if (!potentialCell.value) {
@@ -27,8 +26,8 @@ export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
             break;
         }
     }
-    // Up
-    for (let i = 1; i <= movesUp; i++) {
+    // Down
+    for (let i = 1; i <= movesDown; i++) {
         const potentialCell = cellStates[start + i][position[1]];
         // An empty space.
         if (!potentialCell.value) {
@@ -42,7 +41,7 @@ export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
             break;
         }
     }
-    // Down
+    // Left
     start = position[1];
     for (let i = 1; i <= movesLeft; i++) {
         const potentialCell = cellStates[position[0]][start - i];
