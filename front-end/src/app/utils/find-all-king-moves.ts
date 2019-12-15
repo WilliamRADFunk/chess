@@ -32,9 +32,50 @@ export function findAllKingMoves(cell: Cell, boardState: Board): Cell[] {
     });
 
     if (!cell.dirty) {
-        // TODO: find all rooks that aren't dirty.
-        // TODO: make sure path to clean rook is unobstructed.
-        // TODO: if criteria is met, make available move two spaces toward rook in question.
+        let rookLeft;
+        let rookRight;
+        const movesLeft = position[1] - 0;
+        const movesRight = 7 - position[1];
+        // Left
+        const start = position[1];
+        for (let i = 1; i <= movesLeft; i++) {
+            const possibleCell = cellStates[position[0]][start - i];
+            // An empty space.
+            if (!possibleCell.value) {
+                continue;
+            // Clean rook in farthest spot.
+            } else if (start - i === 0 && possibleCell.value === 2 && !possibleCell.dirty) {
+                rookLeft = possibleCell;
+                break;
+            // Another piece.
+            } else if (possibleCell.value) {
+                break;
+            }
+        }
+        // Right
+        for (let i = 1; i <= movesRight; i++) {
+            const possibleCell = cellStates[position[0]][start + i];
+            // An empty space.
+            if (!possibleCell.value) {
+                continue;
+            // Clean rook in farthest spot.
+            } else if (start + i === 7 && possibleCell.value === 2 && !possibleCell.dirty) {
+                rookRight = possibleCell;
+                break;
+            // Another piece.
+            } else if (possibleCell.value) {
+                break;
+            }
+        }
+        let potentialCell;
+        if (rookLeft) {
+            potentialCell = cellStates[position[0]][position[1] - 2];
+            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+        }
+        if (rookRight) {
+            potentialCell = cellStates[position[0]][position[1] + 2];
+            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+        }
     }
 
     return availableMoves;

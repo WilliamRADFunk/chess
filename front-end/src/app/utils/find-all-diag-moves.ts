@@ -77,24 +77,20 @@ export function findAllDiagMoves(cell: Cell, boardState: Board): Cell[] {
     for (let row = position[0] - 1, col = position[1] + 1; row >= 0 && col < 8; col++, row--) {
         // Out of bounds
         if (7 < row || row < 0 || 0 > col || col > 7) {
-            console.log('Diag-check', 'Up-right', row, col, 'Out of bounds');
             break;
         }
         const potentialCell = cellStates[row][col];
         // Blocked by own piece.
         if (potentialCell.player === cell.player) {
-            console.log('Diag-check', 'Up-right', row, col, 'Blocked by own piece');
             break;
         }
         // An empty space.
         if (!potentialCell.value) {
-            console.log('Diag-check', 'Up-right', row, col, 'An empty space');
             !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
             continue;
         }
         // Capture enemy piece.
         if (potentialCell.player !== cell.player) {
-            console.log('Diag-check', 'Up-right', row, col, 'Capture enemy piece');
             !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
             break;
         }
