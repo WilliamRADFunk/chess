@@ -32,7 +32,7 @@ export class CapturedPiecesPanelComponent implements OnInit {
 
     public getClassStyling(value: number, playerNumber): { [key: string]: boolean } {
         const classStyle = {
-            'rotate': playerNumber === 2,
+            // 'rotate': playerNumber === 2,
             'pawn-1': value === 1 && this.style === 0,
             'pawn-2': value === 1 && this.style === 1,
             'pawn-3': value === 1 && this.style === 2,

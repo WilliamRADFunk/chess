@@ -3,10 +3,10 @@
 }
 
 .black-team-color {
-    z-index: 10;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 4vw;
+    display: inline-block;
     height: 4vw;
     min-height: 4vw;
     min-width: 4vw;
@@ -95,6 +95,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 4vw;
+    display: inline-block;
     height: 4vw;
     min-height: 4vw;
     min-width: 4vw;

@@ -23,9 +23,9 @@ export function resetBoard() {
                 } else if (col === 2 || col === 5) {
                     cell.value = 4;
                 } else if (col === 3) {
-                    cell.value = 5;
-                } else if (col === 4) {
                     cell.value = 6;
+                } else if (col === 4) {
+                    cell.value = 5;
                 }
             } else if (row > 5) {
                 cell.player = 1;
@@ -39,9 +39,9 @@ export function resetBoard() {
                 } else if (col === 2 || col === 5) {
                     cell.value = 4;
                 } else if (col === 3) {
-                    cell.value = 6;
-                } else if (col === 4) {
                     cell.value = 5;
+                } else if (col === 4) {
+                    cell.value = 6;
                 }
             }
             board.cellStates[row][col] = cell;

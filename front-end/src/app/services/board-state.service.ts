@@ -54,7 +54,7 @@ export class BoardStateService {
     });
     private readonly _playersNumber: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     private readonly _readyToSubmit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private readonly _styleOFPieces: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    private readonly _styleOfPieces: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private readonly _timer: BehaviorSubject<number> = new BehaviorSubject<number>(20);
     private _timerId: number;
 
@@ -71,7 +71,7 @@ export class BoardStateService {
     readonly currPlayer1Panel: Observable<{ [key: string]: number[] }> = this._player1Panel.asObservable();
     readonly currPlayer2Panel: Observable<{ [key: string]: number[] }> = this._player2Panel.asObservable();
     readonly currPlayerNumber: Observable<number> = this._playersNumber.asObservable();
-    readonly currStyleOFPieces: Observable<number> = this._styleOFPieces.asObservable();
+    readonly currStyleOFPieces: Observable<number> = this._styleOfPieces.asObservable();
     readonly currTimer: Observable<number> = this._timer.asObservable();
     readonly readyToSubmit: Observable<boolean> = this._readyToSubmit.asObservable();
 
@@ -271,7 +271,7 @@ export class BoardStateService {
         }
     }
     public changeStyleOfPieces(style: number): void {
-        this._styleOFPieces.next(style);
+        this._styleOfPieces.next(style);
     }
 
     public disconnectSocket(opponentTimedout?: boolean) {

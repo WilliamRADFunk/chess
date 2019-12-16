@@ -43,7 +43,7 @@ export class AppComponent implements OnDestroy, OnInit {
         queen: []
     };
     public playerNumber: number;
-    public style: number = 1;
+    public style: number = 0;
     public timer: number = 0;
 
     constructor(
