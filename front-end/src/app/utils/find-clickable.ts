@@ -3,7 +3,7 @@ import { Cell } from '../models/cell';
 import { findPiecesForPlayer } from './find-pieces-for-player';
 import { findAvailableMoves } from './find-available-moves';
 
-export function findClickableCells(direction: number, boardState: Board, moveChainCells: Cell[]): number[] {
+export function findClickableCells(direction: number, boardState: Board, moveChainCells: Cell[]): Cell[] {
     const chainLength = moveChainCells.length;
     // TODO:
     // If player has been checked, find only the pieces that can do anything to break out of it.
@@ -22,6 +22,19 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
     } else {
         clickableCells = findAvailableMoves(moveChainCells[0], boardState);
     }
+    return clickableCells;
+}
+
+
+export function findClickableIds(direction: number, boardState: Board, moveChainCells: Cell[]): number[] {
+    const chainLength = moveChainCells.length;
+    // TODO:
+    // If player has been checked, find only the pieces that can do anything to break out of it.
+    // if (checked) {
+    //     return findPiecesToBreakFromCheck();
+    // }
+    // If no moves have been made yet, find all player's moveable pieces and return their ids.
+    let clickableCells = findClickableCells(direction, boardState, moveChainCells);
     const clickableIds = [];
     clickableCells.forEach(cell => {
         clickableIds.push(cell.id);

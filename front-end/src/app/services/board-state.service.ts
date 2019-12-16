@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import * as uuidv1 from 'uuid/v1';
-import { Socket } from 'ngx-socket-io';
+// import { Socket } from 'ngx-socket-io';
 
 import { Board } from '../models/board';
 import { Cell } from '../models/cell';
@@ -11,9 +11,10 @@ import { checkForEndGame } from '../utils/check-for-endgame';
 import { cloneBoard } from '../utils/clone-board';
 import { convertIdsToCells } from '../utils/convert-ids-to-cells';
 import { promotePiece } from '../utils/promote-piece';
-import { findClickableCells } from '../utils/find-clickable-cells';
+import { findClickableIds } from '../utils/find-clickable';
 import { makeMoves } from '../utils/make-moves';
 import { resetBoard } from '../utils/reset-board';
+import { getCapturedPiecesCount } from '../utils/get-captured-pieces-count';
 
 @Injectable({
     providedIn: 'root'
@@ -37,6 +38,20 @@ export class BoardStateService {
     private readonly _opponentPlayerNumber: BehaviorSubject<number> = new BehaviorSubject<number>(2);
     private readonly _opponentThinking: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private readonly _peoplePlaying: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    private readonly _player1Panel: BehaviorSubject<{ [key: string]: number[] }> = new BehaviorSubject<{ [key: string]: number[] }>({
+        pawns: [],
+        rooks: [],
+        knights: [],
+        bishops: [],
+        queen: []
+    });
+    private readonly _player2Panel: BehaviorSubject<{ [key: string]: number[] }> = new BehaviorSubject<{ [key: string]: number[] }>({
+        pawns: [],
+        rooks: [],
+        knights: [],
+        bishops: [],
+        queen: []
+    });
     private readonly _playersNumber: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     private readonly _readyToSubmit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private readonly _styleOFPieces: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -53,69 +68,71 @@ export class BoardStateService {
     readonly currOpponentPlayerNumber: Observable<number> = this._opponentPlayerNumber.asObservable();
     readonly currOpponentThinking: Observable<boolean> = this._opponentThinking.asObservable();
     readonly currPeoplePlaying: Observable<number> = this._peoplePlaying.asObservable();
+    readonly currPlayer1Panel: Observable<{ [key: string]: number[] }> = this._player1Panel.asObservable();
+    readonly currPlayer2Panel: Observable<{ [key: string]: number[] }> = this._player2Panel.asObservable();
     readonly currPlayerNumber: Observable<number> = this._playersNumber.asObservable();
     readonly currStyleOFPieces: Observable<number> = this._styleOFPieces.asObservable();
     readonly currTimer: Observable<number> = this._timer.asObservable();
     readonly readyToSubmit: Observable<boolean> = this._readyToSubmit.asObservable();
 
-    constructor(private socket: Socket) {
-        this.socket.on('updated people count', data => {
-            this._peoplePlaying.next((data && data.people) || this._peoplePlaying.value);
-        });
-        this.socket.on('joined room', data => {
-            let thisPlayer = false;
-            if (data && data.playerNumber && data.id === this._id) {
-                this._playersNumber.next(data.playerNumber);
-                thisPlayer = true;
-            }
+    constructor(/*private socket: Socket*/) {
+        // this.socket.on('updated people count', data => {
+        //     this._peoplePlaying.next((data && data.people) || this._peoplePlaying.value);
+        // });
+        // this.socket.on('joined room', data => {
+        //     let thisPlayer = false;
+        //     if (data && data.playerNumber && data.id === this._id) {
+        //         this._playersNumber.next(data.playerNumber);
+        //         thisPlayer = true;
+        //     }
 
-            if (data && data.roomFull) {
-                if (!this._hostedRoomCode.value && data.roomCode) {
-                    this._hostedRoomCode.next(data.roomCode);
-                }
-                setTimeout(() => {
-                    this._joiningRoom.next(false);
-                    if ((thisPlayer && this._activePlayer.value === data.playerNumber)
-                        || this._activePlayer.value === this._playersNumber.value) {
-                        this._clickableCellIds.next(
-                            findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));
-                    } else {
-                        this._clickableCellIds.next([]);
-                        this._readyToSubmit.next(false);
-                        this._moveChainIds.next([]);
-                        this._moveChainCells = [];
-                    }
-                    this._clearTimeout();
-                    this._setInterval();
-                }, 100);
-            }
-        });
-        this.socket.on('move made', data => {
-            if (data && data.roomCode !== this._hostedRoomCode.value) {
-                return;
-            }
-            this._clearTimeout();
-            this._gameStatus.next(data.board.gameStatus);
-            if (data.id !== this._id) {
-                this._activePlayer.next(data.board.activePlayer || this._activePlayer.value);
-                this._boardState.next(data.board && data.board.board || this._boardState.value);
-                // If game is over don't bother calculating moves.
-                if (data.board.gameStatus) {
-                    return;
-                }
-                // Calculate moves on new board state based off of who active player is this turn.
-                if (data.board.activePlayer === this._playersNumber.value) {
-                    this._opponentThinking.next(false);
-                    this._clickableCellIds.next(findClickableCells(data.board.activePlayer, data.board, []));
-                } else {
-                    this._clickableCellIds.next([]);
-                    this._readyToSubmit.next(false);
-                    this._moveChainIds.next([]);
-                    this._moveChainCells = [];
-                }
-                this._setInterval();
-            }
-        });
+        //     if (data && data.roomFull) {
+        //         if (!this._hostedRoomCode.value && data.roomCode) {
+        //             this._hostedRoomCode.next(data.roomCode);
+        //         }
+        //         setTimeout(() => {
+        //             this._joiningRoom.next(false);
+        //             if ((thisPlayer && this._activePlayer.value === data.playerNumber)
+        //                 || this._activePlayer.value === this._playersNumber.value) {
+        //                 this._clickableCellIds.next(
+        //                     findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
+        //             } else {
+        //                 this._clickableCellIds.next([]);
+        //                 this._readyToSubmit.next(false);
+        //                 this._moveChainIds.next([]);
+        //                 this._moveChainCells = [];
+        //             }
+        //             this._clearTimeout();
+        //             this._setInterval();
+        //         }, 100);
+        //     }
+        // });
+        // this.socket.on('move made', data => {
+        //     if (data && data.roomCode !== this._hostedRoomCode.value) {
+        //         return;
+        //     }
+        //     this._clearTimeout();
+        //     this._gameStatus.next(data.board.gameStatus);
+        //     if (data.id !== this._id) {
+        //         this._activePlayer.next(data.board.activePlayer || this._activePlayer.value);
+        //         this._boardState.next(data.board && data.board.board || this._boardState.value);
+        //         // If game is over don't bother calculating moves.
+        //         if (data.board.gameStatus) {
+        //             return;
+        //         }
+        //         // Calculate moves on new board state based off of who active player is this turn.
+        //         if (data.board.activePlayer === this._playersNumber.value) {
+        //             this._opponentThinking.next(false);
+        //             this._clickableCellIds.next(findClickableIds(data.board.activePlayer, data.board, []));
+        //         } else {
+        //             this._clickableCellIds.next([]);
+        //             this._readyToSubmit.next(false);
+        //             this._moveChainIds.next([]);
+        //             this._moveChainCells = [];
+        //         }
+        //         this._setInterval();
+        //     }
+        // });
     }
 
     private _changeTurn(): void {
@@ -125,7 +142,7 @@ export class BoardStateService {
         promotePiece(this._boardState.value);
         this._activePlayer.next(this._activePlayer.value === 1 ? 2 : 1);
 
-        this._clickableCellIds.next(findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));
+        this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
 
         this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length));
 
@@ -144,7 +161,7 @@ export class BoardStateService {
     }
 
     private _registerHostRoom(playerNumber: number): void {
-        this.socket.emit('new player', { roomCode: this._hostedRoomCode.value, player: playerNumber, id: this._id });
+        // this.socket.emit('new player', { roomCode: this._hostedRoomCode.value, player: playerNumber, id: this._id });
     }
 
     private _setInterval() {
@@ -153,7 +170,7 @@ export class BoardStateService {
             if (this._timer.value <= 0) {
                 this._clearTimeout();
                 if (this._activePlayer.value !== this._playersNumber.value) {
-                    this.disconnectSocket(true);
+                    // this.disconnectSocket(true);
                 } else {
                     this._gameStatus.next(this._activePlayer.value === 1 ? 2 : 1);
                 }
@@ -212,7 +229,7 @@ export class BoardStateService {
         } else {
             this._readyToSubmit.next(false);
         }
-        this._clickableCellIds.next(findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));
+        this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
     }
 
     public changeDifficulty(difficulty: number): void {
@@ -245,12 +262,12 @@ export class BoardStateService {
         const opponent = playerNumber === 1 ? 2 : 1;
         this._opponentPlayerNumber.next(opponent);
         if (this._opponent === 2 && this._activePlayer.value === opponent) {
-            this._clickableCellIds.next(findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));
+            this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
             this._takeAITurn();
         } else if (this._opponent === 3 && this._onlineMethod === 1) {
             this._registerHostRoom(playerNumber);
         } else {
-            this._clickableCellIds.next(findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));
+            this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
         }
     }
     public changeStyleOfPieces(style: number): void {
@@ -259,7 +276,7 @@ export class BoardStateService {
 
     public disconnectSocket(opponentTimedout?: boolean) {
         console.log('quit', this._id);
-        this.socket.emit('quit', { id: this._id, timedout: opponentTimedout });
+        // this.socket.emit('quit', { id: this._id, timedout: opponentTimedout });
     }
 
     public getActivePlayer(): number {
@@ -276,7 +293,7 @@ export class BoardStateService {
 
     public joinGameroom(code?: string): void {
         this._hostedRoomCode.next(code || '');
-        this.socket.emit('new player', { roomCode: code || null, id: this._id });
+        // this.socket.emit('new player', { roomCode: code || null, id: this._id });
     }
 
     public joiningRoom(): void {
@@ -287,16 +304,18 @@ export class BoardStateService {
         this._readyToSubmit.next(false);
         makeMoves(this._boardState.value, moveChainIds || this._moveChainIds.value, moveChainCells || this._moveChainCells);
         this._changeTurn();
+        const boardState = this._boardState.value;
         if (this._opponent === 3) {
-            const boardState = this._boardState.value;
             boardState.activePlayer = this._activePlayer.value;
             boardState.gameStatus = this._gameStatus.value;
-            this.socket.emit('movement', { board: boardState, id: this._id, roomCode: this._hostedRoomCode.value});
+            // this.socket.emit('movement', { board: boardState, id: this._id, roomCode: this._hostedRoomCode.value});
             this._clickableCellIds.next([]);
             this._readyToSubmit.next(false);
             this._moveChainIds.next([]);
             this._moveChainCells = [];
         }
+        this._player1Panel.next(getCapturedPiecesCount(boardState, 2));
+        this._player2Panel.next(getCapturedPiecesCount(boardState, 1));
     }
 
     public reset(playerNumber?: number, opponentPlayerNumber?: number): void {
@@ -312,6 +331,6 @@ export class BoardStateService {
         this._moveChainIds.next([]);
         this._moveChainCells = [];
 
-        this._clickableCellIds.next(findClickableCells(this._activePlayer.value, this._boardState.value, this._moveChainCells));
+        this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
     }
 }

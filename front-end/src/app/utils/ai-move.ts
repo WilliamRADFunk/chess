@@ -3,7 +3,7 @@ import { cloneBoard } from './clone-board';
 import { convertBoardToKey } from './convert-board-to-key';
 import { convertIdsToCells } from './convert-ids-to-cells';
 import { promotePiece } from './promote-piece';
-import { findClickableCells } from './find-clickable-cells';
+import { findClickableIds } from './find-clickable';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
@@ -16,7 +16,7 @@ export function aiMove(
     memoizationTable: { [key: string]: number }
 ): number {
     const moveChainCells = convertIdsToCells(board, []);
-    const clickableIds = findClickableCells(currPlayer, board, moveChainCells);
+    const clickableIds = findClickableIds(currPlayer, board, moveChainCells);
     // First move of this player's new turn. Check to see if game is already over for this board configuration.
     if (!clickableIds.length) {
         const gameStatus = checkForEndGame(currPlayer, clickableIds.length);

@@ -14,17 +14,18 @@ import { ManComponent } from './man/man.component';
 import { BoardStateService } from './services/board-state.service';
 import { StartMenuComponent } from './start-menu/start-menu.component';
 import { HelpScreenComponent } from './help-screen/help-screen.component';
+import { CapturedPiecesPanelComponent } from './captured-pieces-panel/captured-pieces-panel.component';
 
 // const config: SocketIoConfig = { url: 'http://localhost:5000', options: {} };
 // const config: SocketIoConfig = { url: '157.245.226.187:80', options: {} };
-const config: SocketIoConfig = {
-    url: 'https://the-something-long-anonymous-thing.casa.the-something-long-anonymous-thing.casa:443',
-    options: {
-        secure: true,
-        reconnect: true,
-        rejectUnauthorized: false
-    }
-};
+// const config: SocketIoConfig = {
+//     url: 'https://the-something-long-anonymous-thing.casa.the-something-long-anonymous-thing.casa:443',
+//     options: {
+//         secure: true,
+//         reconnect: true,
+//         rejectUnauthorized: false
+//     }
+// };
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ const config: SocketIoConfig = {
         CellComponent,
         ManComponent,
         StartMenuComponent,
-        HelpScreenComponent
+        HelpScreenComponent,
+        CapturedPiecesPanelComponent
     ],
     imports: [
         BrowserModule,
@@ -42,7 +44,7 @@ const config: SocketIoConfig = {
         HttpClientModule,
         NgbModule,
         ReactiveFormsModule,
-        SocketIoModule.forRoot(config)
+        // SocketIoModule.forRoot(config)
     ],
     providers: [ BoardStateService ],
     bootstrap: [ AppComponent ]

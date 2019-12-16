@@ -1,9 +1,9 @@
 import { Board } from '../models/board';
 import { convertIdsToCells } from './convert-ids-to-cells';
-import { findClickableCells } from './find-clickable-cells';
+import { findClickableIds } from './find-clickable';
 
 export function getMoveChains(board: Board, currPlayer: number, previousChain: number[], depth: number): number[][] {
-    const newMoves = findClickableCells(currPlayer, board, convertIdsToCells(board, previousChain));
+    const newMoves = findClickableIds(currPlayer, board, convertIdsToCells(board, previousChain));
     // Base case: No moves left to make along this path.
     if (!newMoves.length) {
         return [previousChain];

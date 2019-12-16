@@ -28,6 +28,8 @@ export class AppComponent implements OnDestroy, OnInit {
     public opponentIsThinking: boolean = false;
     public opponentPlayerNumber: number;
     public peoplePlaying: number = 0;
+    public player1Panel: { [key: string]: number[] };
+    public player2Panel: { [key: string]: number[] };
     public playerNumber: number;
     public timer: number = 0;
 
@@ -90,6 +92,16 @@ export class AppComponent implements OnDestroy, OnInit {
                 .pipe(distinctUntilChanged())
                 .subscribe(grCode => {
                     this.gameroomCode = grCode;
+                }),
+            this._boardStateService.currPlayer1Panel
+                .pipe(distinctUntilChanged())
+                .subscribe(panel => {
+                    this.player1Panel = panel;
+                }),
+            this._boardStateService.currPlayer2Panel
+                .pipe(distinctUntilChanged())
+                .subscribe(panel => {
+                    this.player2Panel = panel;
                 }),
             this._boardStateService.currGameStatus
                 .subscribe(gs => {

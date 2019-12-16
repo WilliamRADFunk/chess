@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-center">
                 <div class="col text-center text-white mt-2">
                     <span class="h5 d-inline-block mb-2 mb-sm-0">
-                        People Playing Chess: {{ peoplePlaying }}
+                        <!-- People Playing Chess: {{ peoplePlaying }} -->
                     </span>
                 </div>
             </div>
@@ -74,7 +74,11 @@
                         <chess-game-board></chess-game-board>
                     </div>
                 </div>
-                <div class="col-2"></div>
+                <div class="col-2">
+                    <chess-captured-pieces-panel
+                        [player1Panel]="player1Panel"
+                        [player2Panel]="player2Panel"></chess-captured-pieces-panel>
+                </div>
             </div>
             <chess-help-screen *ngIf="helpMode" (helpSelected)="exitHelp()"></chess-help-screen>
         </div>
