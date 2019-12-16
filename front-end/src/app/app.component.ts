@@ -28,9 +28,22 @@ export class AppComponent implements OnDestroy, OnInit {
     public opponentIsThinking: boolean = false;
     public opponentPlayerNumber: number;
     public peoplePlaying: number = 0;
-    public player1Panel: { [key: string]: number[] };
-    public player2Panel: { [key: string]: number[] };
+    public player1Panel: { [key: string]: number[] } = {
+        pawns: [],
+        rooks: [],
+        knights: [],
+        bishops: [],
+        queen: []
+    };
+    public player2Panel: { [key: string]: number[] } = {
+        pawns: [],
+        rooks: [],
+        knights: [],
+        bishops: [],
+        queen: []
+    };
     public playerNumber: number;
+    public style: number = 1;
     public timer: number = 0;
 
     constructor(
@@ -137,6 +150,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
     public changeStyle(e: number): void {
         this._boardStateService.changeStyleOfPieces(e);
+        this.style = e;
     }
 
     public changeOnlineMethod(e: number): void {

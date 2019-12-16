@@ -77,7 +77,8 @@
                 <div class="col-2">
                     <chess-captured-pieces-panel
                         [player1Panel]="player1Panel"
-                        [player2Panel]="player2Panel"></chess-captured-pieces-panel>
+                        [player2Panel]="player2Panel"
+                        [style]="style"></chess-captured-pieces-panel>
                 </div>
             </div>
             <chess-help-screen *ngIf="helpMode" (helpSelected)="exitHelp()"></chess-help-screen>
