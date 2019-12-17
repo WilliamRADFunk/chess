@@ -36,8 +36,17 @@
         background-image: url("../../assets/images/chess-pieces-01/chess-queen-black.png");
     }
 
+    &.queen-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-queen-black-outline.png");
+    }
+
     &.queen-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_queen.png");
+        background-size: 0.5vw;
+    }
+
+    &.queen-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/black_queen-outline.png");
         background-size: 0.5vw;
     }
 
@@ -45,8 +54,16 @@
         background-image: url("../../assets/images/chess-pieces-03/queen_green.png");
     }
 
+    &.queen-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/queen_green-outline.png");
+    }
+
     &.bishop-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-bishop-black.png");
+    }
+
+    &.bishop-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-bishop-black-outline.png");
     }
 
     &.bishop-2 {
@@ -54,12 +71,25 @@
         background-size: 0.5vw;
     }
 
+    &.bishop-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/black_bishop-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.bishop-3 {
         background-image: url("../../assets/images/chess-pieces-03/bishop_green.png");
     }
 
+    &.bishop-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/bishop_green-outline.png");
+    }
+
     &.knight-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-knight-black.png");
+    }
+
+    &.knight-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-knight-black-outline.png");
     }
 
     &.knight-2 {
@@ -67,12 +97,25 @@
         background-size: 0.5vw;
     }
 
+    &.knight-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/black_knight-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.knight-3 {
         background-image: url("../../assets/images/chess-pieces-03/knight_green.png");
     }
 
+    &.knight-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/knight_green-outline.png");
+    }
+
     &.rook-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-rook-black.png");
+    }
+
+    &.rook-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-rook-black-outline.png");
     }
 
     &.rook-2 {
@@ -80,12 +123,25 @@
         background-size: 0.5vw;
     }
 
+    &.rook-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/black_rook-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.rook-3 {
         background-image: url("../../assets/images/chess-pieces-03/rook_green.png");
     }
 
+    &.rook-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/rook_green-outline.png");
+    }
+
     &.pawn-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-pawn-black.png");
+    }
+
+    &.pawn-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-pawn-black-outline.png");
     }
 
     &.pawn-2 {
@@ -93,8 +149,17 @@
         background-size: 0.5vw;
     }
 
+    &.pawn-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/black_pawn-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.pawn-3 {
         background-image: url("../../assets/images/chess-pieces-03/pawn_green.png");
+    }
+
+    &.pawn-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/pawn_green-outline.png");
     }
 }
 
@@ -125,8 +190,17 @@
         background-image: url("../../assets/images/chess-pieces-01/chess-queen-white.png");
     }
 
+    &.queen-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-queen-white-outline.png");
+    }
+
     &.queen-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_queen.png");
+        background-size: 0.5vw;
+    }
+
+    &.queen-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/white_queen-outline.png");
         background-size: 0.5vw;
     }
 
@@ -134,8 +208,16 @@
         background-image: url("../../assets/images/chess-pieces-03/queen_gold.png");
     }
 
+    &.queen-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/queen_gold-outline.png");
+    }
+
     &.bishop-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-bishop-white.png");
+    }
+
+    &.bishop-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-bishop-white-outline.png");
     }
 
     &.bishop-2 {
@@ -143,12 +225,25 @@
         background-size: 0.5vw;
     }
 
+    &.bishop-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/white_bishop-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.bishop-3 {
         background-image: url("../../assets/images/chess-pieces-03/bishop_gold.png");
     }
 
+    &.bishop-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/bishop_gold-outline.png");
+    }
+
     &.knight-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-knight-white.png");
+    }
+
+    &.knight-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-knight-white-outline.png");
     }
 
     &.knight-2 {
@@ -156,12 +251,25 @@
         background-size: 0.5vw;
     }
 
+    &.knight-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/white_knight-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.knight-3 {
         background-image: url("../../assets/images/chess-pieces-03/knight_gold.png");
     }
 
+    &.knight-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/knight_gold-outline.png");
+    }
+
     &.rook-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-rook-white.png");
+    }
+
+    &.rook-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-rook-white-outline.png");
     }
 
     &.rook-2 {
@@ -169,12 +277,25 @@
         background-size: 0.5vw;
     }
 
+    &.rook-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/white_rook-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.rook-3 {
         background-image: url("../../assets/images/chess-pieces-03/rook_gold.png");
     }
 
+    &.rook-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/rook_gold-outline.png");
+    }
+
     &.pawn-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-pawn-white.png");
+    }
+
+    &.pawn-1-outline {
+        background-image: url("../../assets/images/chess-pieces-01/chess-pawn-white-outline.png");
     }
 
     &.pawn-2 {
@@ -182,7 +303,16 @@
         background-size: 0.5vw;
     }
 
+    &.pawn-2-outline {
+        background-image: url("../../assets/images/chess-pieces-02/white_pawn-outline.png");
+        background-size: 0.5vw;
+    }
+
     &.pawn-3 {
         background-image: url("../../assets/images/chess-pieces-03/pawn_gold.png");
+    }
+
+    &.pawn-3-outline {
+        background-image: url("../../assets/images/chess-pieces-03/pawn_gold-outline.png");
     }
 }

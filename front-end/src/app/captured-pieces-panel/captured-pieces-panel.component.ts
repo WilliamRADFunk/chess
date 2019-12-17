@@ -30,27 +30,38 @@ export class CapturedPiecesPanelComponent implements OnInit {
 
   ngOnInit() { }
 
-    public getClassStyling(value: number, playerNumber): { [key: string]: boolean } {
+    public getClassStyling(value: number, playerNumber: number, index: number): { [key: string]: boolean } {
         const classStyle = {
-            // 'rotate': playerNumber === 2,
-            'pawn-1': value === 1 && this.style === 0,
-            'pawn-2': value === 1 && this.style === 1,
-            'pawn-3': value === 1 && this.style === 2,
-            'rook-1': value === 2 && this.style === 0,
-            'rook-2': value === 2 && this.style === 1,
-            'rook-3': value === 2 && this.style === 2,
-            'knight-1': value === 3 && this.style === 0,
-            'knight-2': value === 3 && this.style === 1,
-            'knight-3': value === 3 && this.style === 2,
-            'bishop-1': value === 4 && this.style === 0,
-            'bishop-2': value === 4 && this.style === 1,
-            'bishop-3': value === 4 && this.style === 2,
-            'queen-1': value === 5 && this.style === 0,
-            'queen-2': value === 5 && this.style === 1,
-            'queen-3': value === 5 && this.style === 2,
-            'king-1': value === 6 && this.style === 0,
-            'king-2': value === 6 && this.style === 1,
-            'king-3': value === 6 && this.style === 2
+            'pawn-1': value === 1 && this.style === 0 && !!this.player1Panel['pawn-1'][index],
+            'pawn-1-outline': value === 1 && this.style === 0 && !this.player1Panel['pawn-1'][index],
+            'pawn-2': value === 1 && this.style === 1 && !!this.player1Panel['pawn-1'][index],
+            'pawn-2-outline': value === 1 && this.style === 1 && !this.player1Panel['pawn-1'][index],
+            'pawn-3': value === 1 && this.style === 2 && !!this.player1Panel['pawn-1'][index],
+            'pawn-3-outline': value === 1 && this.style === 2 && !this.player1Panel['pawn-1'][index],
+            'rook-1': value === 2 && this.style === 0 && !!this.player1Panel['rook-1'][index],
+            'rook-1-outline': value === 2 && this.style === 0 && !this.player1Panel['rook-1'][index],
+            'rook-2': value === 2 && this.style === 1 && !!this.player1Panel['rook-1'][index],
+            'rook-2-outline': value === 2 && this.style === 1 && !this.player1Panel['rook-1'][index],
+            'rook-3': value === 2 && this.style === 2 && !!this.player1Panel['rook-1'][index],
+            'rook-3-outline': value === 2 && this.style === 2 && !this.player1Panel['rook-1'][index],
+            'knight-1': value === 3 && this.style === 0 && !!this.player1Panel['knight-1'][index],
+            'knight-1-outline': value === 3 && this.style === 0 && !this.player1Panel['knight-1'][index],
+            'knight-2': value === 3 && this.style === 1 && !!this.player1Panel['knight-1'][index],
+            'knight-2-outline': value === 3 && this.style === 1 && !this.player1Panel['knight-1'][index],
+            'knight-3': value === 3 && this.style === 2 && !!this.player1Panel['knight-1'][index],
+            'knight-3-outline': value === 3 && this.style === 2 && !this.player1Panel['knight-1'][index],
+            'bishop-1': value === 4 && this.style === 0 && !!this.player1Panel['bishop-1'][index],
+            'bishop-1-outline': value === 4 && this.style === 0 && !this.player1Panel['bishop-1'][index],
+            'bishop-2': value === 4 && this.style === 1 && !!this.player1Panel['bishop-1'][index],
+            'bishop-2-outline': value === 4 && this.style === 1 && !this.player1Panel['bishop-1'][index],
+            'bishop-3': value === 4 && this.style === 2 && !!this.player1Panel['bishop-1'][index],
+            'bishop-3-outline': value === 4 && this.style === 2 && !this.player1Panel['bishop-1'][index],
+            'queen-1': value === 5 && this.style === 0 && !!this.player1Panel['queen-1'][index],
+            'queen-1-outline': value === 5 && this.style === 0 && !this.player1Panel['queen-1'][index],
+            'queen-2': value === 5 && this.style === 1 && !!this.player1Panel['queen-1'][index],
+            'queen-2-outline': value === 5 && this.style === 1 && !this.player1Panel['queen-1'][index],
+            'queen-3': value === 5 && this.style === 2 && !!this.player1Panel['queen-1'][index],
+            'queen-3-outline': value === 5 && this.style === 2 && !this.player1Panel['queen-1'][index]
         };
         if (playerNumber === 1) {
             classStyle['black-team-color'] = false;
