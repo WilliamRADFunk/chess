@@ -1,3 +1,10 @@
+.capture-panel {
+    height: 15.5vw;
+    min-height: 15.5vw;
+    min-width: 8.5vw;
+    width: 8.5vw;
+}
+
 .rotate {
     transform: rotate(180deg);
 }
@@ -5,12 +12,12 @@
 .black-team-color {
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 4vw;
+    background-size: 2vw;
     display: inline-block;
-    height: 4vw;
-    min-height: 4vw;
-    min-width: 4vw;
-    width: 4vw;
+    height: 2vw;
+    min-height: 2vw;
+    min-width: 2vw;
+    width: 2vw;
 
     &.king-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-king-black.png");
@@ -18,7 +25,7 @@
 
     &.king-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_king.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.king-3 {
@@ -31,7 +38,7 @@
 
     &.queen-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_queen.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.queen-3 {
@@ -44,7 +51,7 @@
 
     &.bishop-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_bishop.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.bishop-3 {
@@ -57,7 +64,7 @@
 
     &.knight-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_knight.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.knight-3 {
@@ -70,7 +77,7 @@
 
     &.rook-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_rook.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.rook-3 {
@@ -83,7 +90,7 @@
 
     &.pawn-2 {
         background-image: url("../../assets/images/chess-pieces-02/black_pawn.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.pawn-3 {
@@ -94,12 +101,12 @@
 .white-team-color {
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 4vw;
+    background-size: 2vw;
     display: inline-block;
-    height: 4vw;
-    min-height: 4vw;
-    min-width: 4vw;
-    width: 4vw;
+    height: 2vw;
+    min-height: 2vw;
+    min-width: 2vw;
+    width: 2vw;
 
     &.king-1 {
         background-image: url("../../assets/images/chess-pieces-01/chess-king-white.png");
@@ -107,7 +114,7 @@
 
     &.king-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_king.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.king-3 {
@@ -120,7 +127,7 @@
 
     &.queen-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_queen.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.queen-3 {
@@ -133,7 +140,7 @@
 
     &.bishop-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_bishop.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.bishop-3 {
@@ -146,7 +153,7 @@
 
     &.knight-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_knight.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.knight-3 {
@@ -159,7 +166,7 @@
 
     &.rook-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_rook.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.rook-3 {
@@ -172,7 +179,7 @@
 
     &.pawn-2 {
         background-image: url("../../assets/images/chess-pieces-02/white_pawn.png");
-        background-size: 2.5vw;
+        background-size: 0.5vw;
     }
 
     &.pawn-3 {

@@ -1,37 +1,40 @@
-<div *ngIf="player1Panel?.pawns?.length">
-  <span *ngFor="let p of player1Panel.pawns.slice(0, 4)" [ngClass]="getClassStyling(1, 2)" [@fadein]="'in'"></span>
+<div class="d-block border rounded capture-panel">
+    <div *ngIf="player1Panel?.pawns?.length">
+    <span *ngFor="let p of player1Panel.pawns.slice(0, 4)" [ngClass]="getClassStyling(1, 2)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player1Panel?.pawns?.length > 4">
+    <span *ngFor="let p of player1Panel.pawns.slice(4)" [ngClass]="getClassStyling(1, 2)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player1Panel?.rooks?.length">
+    <span *ngFor="let r of player1Panel.rooks" [ngClass]="getClassStyling(2, 2)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player1Panel?.knights?.length">
+    <span *ngFor="let k of player1Panel.knights" [ngClass]="getClassStyling(3, 2)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player1Panel?.bishops?.length">
+    <span *ngFor="let k of player1Panel.bishops" [ngClass]="getClassStyling(4, 2)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player1Panel?.queens?.length">
+    <span *ngFor="let q of player1Panel.queens" [ngClass]="getClassStyling(5, 2)" [@fadein]="'in'"></span>
+    </div>
 </div>
-<div *ngIf="player1Panel?.pawns?.length > 4">
-  <span *ngFor="let p of player1Panel.pawns.slice(4)" [ngClass]="getClassStyling(1, 2)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player1Panel?.rooks?.length">
-  <span *ngFor="let r of player1Panel.rooks" [ngClass]="getClassStyling(2, 2)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player1Panel?.knights?.length">
-  <span *ngFor="let k of player1Panel.knights" [ngClass]="getClassStyling(3, 2)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player1Panel?.bishops?.length">
-  <span *ngFor="let k of player1Panel.bishops" [ngClass]="getClassStyling(4, 2)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player1Panel?.queens?.length">
-  <span *ngFor="let q of player1Panel.queens" [ngClass]="getClassStyling(5, 2)" [@fadein]="'in'"></span>
-</div>
-<div class="my-2"></div>
-<div *ngIf="player2Panel?.pawns?.length">
-  <span *ngFor="let p of player2Panel.pawns.slice(0, 4)" [ngClass]="getClassStyling(1, 1)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player2Panel?.pawns?.length > 4">
-  <span *ngFor="let p of player2Panel.pawns.slice(4)" [ngClass]="getClassStyling(1, 1)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player2Panel?.rooks?.length">
-  <span *ngFor="let r of player2Panel.rooks" [ngClass]="getClassStyling(2, 1)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player2Panel?.knights?.length">
-  <span *ngFor="let k of player2Panel.knights" [ngClass]="getClassStyling(3, 1)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player2Panel?.bishops?.length">
-  <span *ngFor="let k of player2Panel.bishops" [ngClass]="getClassStyling(4, 1)" [@fadein]="'in'"></span>
-</div>
-<div *ngIf="player2Panel?.queens?.length">
-  <span *ngFor="let q of player2Panel.queens" [ngClass]="getClassStyling(5, 1)" [@fadein]="'in'"></span>
+<div class="d-block border rounded capture-panel mt-2">
+    <div *ngIf="player2Panel?.pawns?.length">
+    <span *ngFor="let p of player2Panel.pawns.slice(0, 4)" [ngClass]="getClassStyling(1, 1)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player2Panel?.pawns?.length > 4">
+    <span *ngFor="let p of player2Panel.pawns.slice(4)" [ngClass]="getClassStyling(1, 1)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player2Panel?.rooks?.length">
+    <span *ngFor="let r of player2Panel.rooks" [ngClass]="getClassStyling(2, 1)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player2Panel?.knights?.length">
+    <span *ngFor="let k of player2Panel.knights" [ngClass]="getClassStyling(3, 1)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player2Panel?.bishops?.length">
+    <span *ngFor="let k of player2Panel.bishops" [ngClass]="getClassStyling(4, 1)" [@fadein]="'in'"></span>
+    </div>
+    <div *ngIf="player2Panel?.queens?.length">
+    <span *ngFor="let q of player2Panel.queens" [ngClass]="getClassStyling(5, 1)" [@fadein]="'in'"></span>
+    </div>
 </div>
