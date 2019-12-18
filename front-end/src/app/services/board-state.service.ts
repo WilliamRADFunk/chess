@@ -43,14 +43,14 @@ export class BoardStateService {
         rooks: [],
         knights: [],
         bishops: [],
-        queen: []
+        queens: []
     });
     private readonly _player2Panel: BehaviorSubject<{ [key: string]: number[] }> = new BehaviorSubject<{ [key: string]: number[] }>({
         pawns: [],
         rooks: [],
         knights: [],
         bishops: [],
-        queen: []
+        queens: []
     });
     private readonly _playersNumber: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     private readonly _readyToSubmit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);

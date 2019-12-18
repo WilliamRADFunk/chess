@@ -15,7 +15,7 @@
         <span *ngFor="let b of [0, 1]; let index = index" [ngClass]="getClassStyling(4, 2, index)" [@fadein]="'in'"></span>
     </div>
     <div>
-        <span *ngFor="let q of [0]; let index = index" [ngClass]="getClassStyling(5, 2, index)" [@fadein]="'in'"></span>
+        <span [ngClass]="getClassStyling(5, 2, 0)" [@fadein]="'in'"></span>
     </div>
 </div>
 <div class="d-block border rounded capture-panel mt-2">
@@ -35,6 +35,6 @@
         <span *ngFor="let b of [0, 1]; let index = index" [ngClass]="getClassStyling(4, 1, index)" [@fadein]="'in'"></span>
     </div>
     <div>
-        <span *ngFor="let q of [0]; let index = index" [ngClass]="getClassStyling(5, 1, index)" [@fadein]="'in'"></span>
+        <span [ngClass]="getClassStyling(5, 1, 0)" [@fadein]="'in'"></span>
     </div>
 </div>

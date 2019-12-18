@@ -41,6 +41,6 @@ export function getCapturedPiecesCount(boardState: Board, playerNumber: number):
         rooks: new Array(2 - (rooks <= 2 ? rooks : 2)),
         knights: new Array(2 - (knights <= 2 ? knights : 2)),
         bishops: new Array(2 - (bishops <= 2 ? bishops : 2)),
-        queens: new Array(1 - (queens <= 2 ? queens : 2))
+        queens: queens ? [1] : []
     };
 }

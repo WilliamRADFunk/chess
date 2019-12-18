@@ -33,14 +33,14 @@ export class AppComponent implements OnDestroy, OnInit {
         rooks: [],
         knights: [],
         bishops: [],
-        queen: []
+        queens: []
     };
     public player2Panel: { [key: string]: number[] } = {
         pawns: [],
         rooks: [],
         knights: [],
         bishops: [],
-        queen: []
+        queens: []
     };
     public playerNumber: number;
     public style: number = 0;
