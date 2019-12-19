@@ -65,16 +65,19 @@ export class CapturedPiecesPanelComponent implements OnInit {
             'queen-3': value === 5 && this.style === 2 && index === panel.queens.length - 1,
             'queen-3-outline': value === 5 && this.style === 2 && index !== panel.queens.length - 1
         };
-        if (!top) {
-            classStyle['black-team-color'] = false;
-            classStyle['white-team-color'] = true;
-            return classStyle;
-        } else if (top) {
+        if (top && this.playerNumber === 2) {
             classStyle['black-team-color'] = true;
             classStyle['white-team-color'] = false;
-            return classStyle;
+        } else if (top && this.playerNumber === 1) {
+            classStyle['black-team-color'] = false;
+            classStyle['white-team-color'] = true;
+        } else if (!top && this.playerNumber === 1) {
+            classStyle['black-team-color'] = false;
+            classStyle['white-team-color'] = true;
+        } else {
+            classStyle['black-team-color'] = true;
+            classStyle['white-team-color'] = false;
         }
-        return {};
+        return classStyle;
     }
-
 }
