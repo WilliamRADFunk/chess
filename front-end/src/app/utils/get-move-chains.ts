@@ -12,7 +12,7 @@ export function getMoveChains(board: Board, currPlayer: number, previousChain: n
     const results = [];
     newMoves.forEach(move => {
         const prospectiveChain = [...previousChain, move];
-        console.log('prospectiveChain', prospectiveChain);
+        // console.log('prospectiveChain', prospectiveChain);
         getMoveChains(board, currPlayer, [...previousChain, move], depth).forEach(chain => {
             results.push(chain);
         });

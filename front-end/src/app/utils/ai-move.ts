@@ -7,6 +7,7 @@ import { findClickableIds } from './find-clickable';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
+import { getPiecePointValue } from './get-piece-point-value';
 
 export function aiMove(
     board: Board,
@@ -34,9 +35,9 @@ export function aiMove(
                     return;
                 }
                 if (cell.player === aiPlayer) {
-                    aiPlayerPieceCount += (10 * cell.value);
+                    aiPlayerPieceCount += getPiecePointValue(cell.value);
                 } else {
-                    nonAiPlayerPieceCount -= (10 * cell.value);
+                    nonAiPlayerPieceCount -= getPiecePointValue(cell.value);
                 }
             });
         });
