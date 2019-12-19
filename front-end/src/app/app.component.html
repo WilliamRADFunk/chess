@@ -63,8 +63,8 @@
                 (startSelected)="startGame($event)"
                 (styleSelected)="changeStyle($event)"></chess-start-menu>
             <div *ngIf="!showStartMenu() && !helpMode" class="row no-gutters mt-1">
-                <div class="col-2"></div>
-                <div class="col-7 text-center text-white">
+                <div class="col-0 col-md-2"></div>
+                <div class="col-12 col-md-7 text-center text-white">
                     <div class="d-flex justify-content-center mb-3">
                         <div class="col text-center">
                             <span class="h1 d-block d-sm-inline-block mb-sm-0">Chess</span>
@@ -74,14 +74,14 @@
                         <chess-game-board></chess-game-board>
                     </div>
                 </div>
-                <div class="col-3 mt-3">
-                    <div class="d-flex justify-content-left mb-3">
+                <div class="col-12 col-md-3 mt-md-3">
+                    <div class="mb-md-3">
                         <div class="col text-left text-white pl-0">
-                            <span class="h5 d-block d-sm-inline-block mb-sm-0 mt-3" style="padding-left: 17px;">Captives</span>
+                            <span class="h5 d-none d-md-block mb-sm-0 mt-3" style="padding-left: 17px;">Captives</span>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-left ml-0">
-                        <chess-captured-pieces-panel
+                    <div class="text-center text-md-left ml-md-0 h-100">
+                        <chess-captured-pieces-panel class="text-center"
                             [player1Panel]="player1Panel"
                             [player2Panel]="player2Panel"
                             [playerNumber]="playerNumber"
