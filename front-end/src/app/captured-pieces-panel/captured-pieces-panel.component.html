@@ -1,40 +1,40 @@
 <div class="d-block border rounded capture-panel" style="margin-top: 4px;">
     <div class="captive-row">
-        <span *ngFor="let p of [0, 1, 2, 3]; let index = index" [ngClass]="getClassStyling(1, 2, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let p of [0, 1, 2, 3]; let index = index" [ngClass]="getClassStyling(1, true, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let p of [4, 5, 6, 7]; let index = index" [ngClass]="getClassStyling(1, 2, index + 4)" [@fadein]="'in'"></span>
+        <span *ngFor="let p of [4, 5, 6, 7]; let index = index" [ngClass]="getClassStyling(1, true, index + 4)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let r of [0, 1]; let index = index" [ngClass]="getClassStyling(2, 2, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let r of [0, 1]; let index = index" [ngClass]="getClassStyling(2, true, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let k of [0, 1]; let index = index" [ngClass]="getClassStyling(3, 2, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let k of [0, 1]; let index = index" [ngClass]="getClassStyling(3, true, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let b of [0, 1]; let index = index" [ngClass]="getClassStyling(4, 2, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let b of [0, 1]; let index = index" [ngClass]="getClassStyling(4, true, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span [ngClass]="getClassStyling(5, 2, 0)" [@fadein]="'in'"></span>
+        <span [ngClass]="getClassStyling(5, true, 0)" [@fadein]="'in'"></span>
     </div>
 </div>
-<div class="d-block border rounded capture-panel mt-2" style="vertical-align: bottom;">
+<div class="d-block border rounded capture-panel mt-2">
     <div class="captive-row">
-        <span *ngFor="let p of [0, 1, 2, 3]; let index = index" [ngClass]="getClassStyling(1, 1, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let p of [0, 1, 2, 3]; let index = index" [ngClass]="getClassStyling(1, false, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let p of [4, 5, 6, 7]; let index = index" [ngClass]="getClassStyling(1, 1, index + 4)" [@fadein]="'in'"></span>
+        <span *ngFor="let p of [4, 5, 6, 7]; let index = index" [ngClass]="getClassStyling(1, false, index + 4)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let r of [0, 1]; let index = index" [ngClass]="getClassStyling(2, 1, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let r of [0, 1]; let index = index" [ngClass]="getClassStyling(2, false, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let k of [0, 1]; let index = index" [ngClass]="getClassStyling(3, 1, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let k of [0, 1]; let index = index" [ngClass]="getClassStyling(3, false, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span *ngFor="let b of [0, 1]; let index = index" [ngClass]="getClassStyling(4, 1, index)" [@fadein]="'in'"></span>
+        <span *ngFor="let b of [0, 1]; let index = index" [ngClass]="getClassStyling(4, false, index)" [@fadein]="'in'"></span>
     </div>
     <div class="captive-row">
-        <span [ngClass]="getClassStyling(5, 1, 0)" [@fadein]="'in'"></span>
+        <span [ngClass]="getClassStyling(5, false, 0)" [@fadein]="'in'"></span>
     </div>
 </div>
