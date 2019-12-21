@@ -139,20 +139,30 @@ export class BoardStateService {
     }
 
     private _changeTurn(): void {
-        const lastCell = this._moveChainCells[1];
-
         this._moveChainCells.length = 0;
         this._moveChainIds.next([]);
+        const board = this._boardState.value;
 
-        promotePiece(this._boardState.value);
+        promotePiece(board);
         
         const newActivePlayer = this._activePlayer.value === 1 ? 2 : 1;
         this._activePlayer.next(newActivePlayer);
 
-        this._playerInCheck.next(checkForCheck(lastCell, lastCell, this._boardState.value) ? newActivePlayer : 0);
-
-        this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
-
+        let randomCell;
+        for (let i = 0; i < board.cellStates.length; i++) {
+            const cols = board.cellStates[i];
+            for (let j = 0; j < cols.length; j++) {
+                if (cols[j].player === newActivePlayer) {
+                    randomCell = cols[j];
+                    break;
+                }
+            }
+            if (randomCell) {
+                break;
+            }
+        }
+        this._playerInCheck.next(checkForCheck(randomCell, randomCell, board) ? newActivePlayer : 0);
+        this._clickableCellIds.next(findClickableIds(this._activePlayer.value, board, this._moveChainCells));
         this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length));
 
         if (!this._gameStatus.value && this._opponent === 2 && this._activePlayer.value === this._opponentPlayerNumber.value) {

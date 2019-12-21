@@ -8,18 +8,25 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
     const clonedBoard = cloneBoard(boardState);
     const clonedCellEnd = clonedBoard.cellStates[cellEnd.position[0]][cellEnd.position[1]];
     const clonedCellStart = clonedBoard.cellStates[cellStart.position[0]][cellStart.position[1]];
+
     // The player whose move will be next after this prospective move.
     const potentiallyCheckingPlayer = cellStart.player === 1 ? 2 : 1;
 
+    let cellsTheSame = false;
+    if (clonedCellStart.player === clonedCellEnd.player) {
+        cellsTheSame = true;
+    }
     clonedCellEnd.dirty = true;
     clonedCellEnd.player = cellStart.player;
     clonedCellEnd.playerColor = cellStart.playerColor;
     clonedCellEnd.value = cellStart.value;
 
-    clonedCellStart.dirty = true;
-    clonedCellStart.player = 0;
-    clonedCellStart.playerColor = '';
-    clonedCellStart.value = 0;
+    if (!cellsTheSame) {
+        clonedCellStart.dirty = true;
+        clonedCellStart.player = 0;
+        clonedCellStart.playerColor = '';
+        clonedCellStart.value = 0;
+    }
 
     // Find the moving player's king.
     let king;
