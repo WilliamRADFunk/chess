@@ -238,17 +238,14 @@ export class BoardStateService {
         // If last move only advanced by one row, it didn't jump, and therefore is ineligible for further movement.
         const idChain = this._moveChainIds.value;
         const chainLength = idChain.length;
-        if (chainLength > 1 && Math.abs(idChain[chainLength - 2] - idChain[chainLength - 1]) < 12) {
+        if (chainLength > 1) {
             this._clickableCellIds.next([]);
             this._readyToSubmit.next(true);
             return;
-        }
-        if (chainLength > 1) {
-            this._readyToSubmit.next(true);
         } else {
             this._readyToSubmit.next(false);
+            this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
         }
-        this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
     }
 
     public changeDifficulty(difficulty: number): void {

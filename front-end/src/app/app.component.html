@@ -36,8 +36,12 @@
                             <span class="fa fa-gear fa-spin"></span>
                         </ng-container>
                     </span>
-                    <span *ngIf="checkedPlayer === playerNumber" class="h4 text-warning d-inline-block my-2 mb-sm-0">CHECK!</span>
-                    <span *ngIf="gameOver" class="h5 d-inline-block mb-2 mb-sm-0">Game Over</span>
+                    <span
+                        *ngIf="checkedPlayer === playerNumber && !gameOver"
+                        class="h4 text-warning d-inline-block my-2 mb-sm-0">
+                        CHECK!
+                    </span>
+                    <span *ngIf="gameOver" class="h4 text-primary d-inline-block mb-2 mb-sm-0">CHECK & MATE!</span>
                     <span *ngIf="opponent === 3" class="h5 d-inline-block mb-2 mb-sm-0">Time Remaining: {{ timer }}</span>
                 </div>
             </div>
