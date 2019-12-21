@@ -1,6 +1,5 @@
 import { Board } from '../models/board';
 import { Cell } from '../models/cell';
-import { checkForCheck } from './check-for-check';
 
 export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
     const cellStates = boardState.cellStates;
@@ -16,13 +15,13 @@ export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
         const potentialCell = cellStates[start - i][position[1]];
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
         // Blocked by own piece.
         } else if (cell.player === potentialCell.player) {
             break;
         // Capture enemy piece.
         } else if (cell.player !== potentialCell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }
@@ -31,13 +30,13 @@ export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
         const potentialCell = cellStates[start + i][position[1]];
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
         // Blocked by own piece.
         } else if (cell.player === potentialCell.player) {
             break;
         // Capture enemy piece.
         } else if (cell.player !== potentialCell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }
@@ -47,13 +46,13 @@ export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
         const potentialCell = cellStates[position[0]][start - i];
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
         // Blocked by own piece.
         } else if (cell.player === potentialCell.player) {
             break;
         // Capture enemy piece.
         } else if (cell.player !== potentialCell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }
@@ -62,13 +61,13 @@ export function findAllStraightMoves(cell: Cell, boardState: Board): Cell[] {
         const potentialCell = cellStates[position[0]][start + i];
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
         // Blocked by own piece.
         } else if (cell.player === potentialCell.player) {
             break;
         // Capture enemy piece.
         } else if (cell.player !== potentialCell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }

@@ -1,6 +1,5 @@
 import { Board } from '../models/board';
 import { Cell } from '../models/cell';
-import { checkForCheck } from './check-for-check';
 
 export function findAllDiagMoves(cell: Cell, boardState: Board): Cell[] {
     const cellStates = boardState.cellStates;
@@ -20,12 +19,12 @@ export function findAllDiagMoves(cell: Cell, boardState: Board): Cell[] {
         }
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             continue;
         }
         // Capture enemy piece.
         if (potentialCell.player !== cell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }
@@ -42,12 +41,12 @@ export function findAllDiagMoves(cell: Cell, boardState: Board): Cell[] {
         }
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             continue;
         }
         // Capture enemy piece.
         if (potentialCell.player !== cell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }
@@ -64,12 +63,12 @@ export function findAllDiagMoves(cell: Cell, boardState: Board): Cell[] {
         }
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             continue;
         }
         // Capture enemy piece.
         if (potentialCell.player !== cell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }
@@ -86,12 +85,12 @@ export function findAllDiagMoves(cell: Cell, boardState: Board): Cell[] {
         }
         // An empty space.
         if (!potentialCell.value) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             continue;
         }
         // Capture enemy piece.
         if (potentialCell.player !== cell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
             break;
         }
     }

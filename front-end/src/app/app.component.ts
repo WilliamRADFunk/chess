@@ -18,6 +18,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
     public activePlayer: number;
     public canSubmitMove: boolean = false;
+    public checkedPlayer: number = 0;
     @ViewChild('content', { static: true }) content: any;
     public gameOver: number = 0;
     public gameOverAck: boolean = true;
@@ -115,6 +116,11 @@ export class AppComponent implements OnDestroy, OnInit {
                 .pipe(distinctUntilChanged())
                 .subscribe(panel => {
                     this.player2Panel = panel;
+                }),
+            this._boardStateService.currPlayerInCheck
+                .pipe(distinctUntilChanged())
+                .subscribe(checkedPlayer => {
+                    this.checkedPlayer = checkedPlayer;
                 }),
             this._boardStateService.currGameStatus
                 .subscribe(gs => {

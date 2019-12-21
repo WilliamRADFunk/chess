@@ -15,6 +15,7 @@ import { findClickableIds } from '../utils/find-clickable';
 import { makeMoves } from '../utils/make-moves';
 import { resetBoard } from '../utils/reset-board';
 import { getCapturedPiecesCount } from '../utils/get-captured-pieces-count';
+import { checkForCheck } from '../utils/check-for-check';
 
 @Injectable({
     providedIn: 'root'
@@ -52,6 +53,7 @@ export class BoardStateService {
         bishops: [],
         queens: []
     });
+    private readonly _playerInCheck: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private readonly _playersNumber: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     private readonly _readyToSubmit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private readonly _styleOfPieces: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -70,6 +72,7 @@ export class BoardStateService {
     readonly currPeoplePlaying: Observable<number> = this._peoplePlaying.asObservable();
     readonly currPlayer1Panel: Observable<{ [key: string]: number[] }> = this._player1Panel.asObservable();
     readonly currPlayer2Panel: Observable<{ [key: string]: number[] }> = this._player2Panel.asObservable();
+    readonly currPlayerInCheck: Observable<number> = this._playerInCheck.asObservable();
     readonly currPlayerNumber: Observable<number> = this._playersNumber.asObservable();
     readonly currStyleOFPieces: Observable<number> = this._styleOfPieces.asObservable();
     readonly currTimer: Observable<number> = this._timer.asObservable();
@@ -136,11 +139,17 @@ export class BoardStateService {
     }
 
     private _changeTurn(): void {
+        const lastCell = this._moveChainCells[1];
+
         this._moveChainCells.length = 0;
         this._moveChainIds.next([]);
 
         promotePiece(this._boardState.value);
-        this._activePlayer.next(this._activePlayer.value === 1 ? 2 : 1);
+        
+        const newActivePlayer = this._activePlayer.value === 1 ? 2 : 1;
+        this._activePlayer.next(newActivePlayer);
+
+        this._playerInCheck.next(checkForCheck(lastCell, lastCell, this._boardState.value) ? newActivePlayer : 0);
 
         this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
 

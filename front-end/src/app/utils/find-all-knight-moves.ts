@@ -1,6 +1,5 @@
 import { Board } from '../models/board';
 import { Cell } from '../models/cell';
-import { checkForCheck } from './check-for-check';
 
 export function findAllKnightMoves(cell: Cell, boardState: Board): Cell[] {
     const cellStates = boardState.cellStates;
@@ -28,7 +27,7 @@ export function findAllKnightMoves(cell: Cell, boardState: Board): Cell[] {
         const potentialCell = cellStates[row][col];
         // An empty space, or capture enemy piece.
         if (!potentialCell.value || potentialCell.player !== cell.player) {
-            !checkForCheck(cell, potentialCell, boardState) && availableMoves.push(potentialCell);
+            availableMoves.push(potentialCell);
         }
     });
 
