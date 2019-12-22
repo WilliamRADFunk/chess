@@ -21,7 +21,7 @@ export function aiDecider(
     getAllMoveChains(board, aiPlayer, startingPieces, 4).forEach(chain => {
         const newBoard = cloneBoard(board);
         makeMoves(newBoard, chain, convertIdsToCells(newBoard, chain));
-        promotePiece(newBoard);
+        promotePiece(newBoard); // TODO: Must turn this step into 4 extra boards (queen, bishop, knight, rook).
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined === memoizationTable[bKey]) {
             memoizationTable[bKey] = aiMove(

@@ -17,7 +17,7 @@ export class AppComponent implements OnDestroy, OnInit {
     private _subscriptions: Subscription[] = [];
 
     public activePlayer: number;
-    public canSubmitMove: boolean = false;
+    public canSubmitMove: number = 0;
     public checkedPlayer: number = 0;
     @ViewChild('content', { static: true }) content: any;
     public gameOver: number = 0;
@@ -181,6 +181,47 @@ export class AppComponent implements OnDestroy, OnInit {
     public gameroomCodeEntered(code: string): void {
         this._gameroomCodeByUser = code;
     }
+    
+    public getClassStyling(value: number): { [key: string]: boolean } {
+        const classStyle = {
+            'black-team-color': false,
+            'white-team-color': true,
+            'rook-1': value === 2 && this.style === 0,
+            'rook-2': value === 2 && this.style === 1,
+            'rook-3': value === 2 && this.style === 2,
+            'knight-1': value === 3 && this.style === 0,
+            'knight-2': value === 3 && this.style === 1,
+            'knight-3': value === 3 && this.style === 2,
+            'bishop-1': value === 4 && this.style === 0,
+            'bishop-2': value === 4 && this.style === 1,
+            'bishop-3': value === 4 && this.style === 2,
+            'queen-1': value === 5 && this.style === 0,
+            'queen-2': value === 5 && this.style === 1,
+            'queen-3': value === 5 && this.style === 2
+        };
+        if (this.activePlayer === 2) {
+            classStyle['black-team-color'] = true;
+            classStyle['white-team-color'] = false;
+        }
+        return classStyle;
+    }
+    
+    public getPromotionMesg(value: number): string {
+        switch(value) {
+            case 5: {
+                return 'Promote to Queen'
+            }
+            case 4: {
+                return 'Promote to Bishop'
+            }
+            case 3: {
+                return 'Promote to Knight'
+            }
+            case 2: {
+                return 'Promote to Rook'
+            }
+        }
+    }
 
     public getPlayerTurnMsg(): string {
         if (this._opponent === 1) {
@@ -245,7 +286,7 @@ export class AppComponent implements OnDestroy, OnInit {
         this.gameOverAck = false;
     }
 
-    public submitMove(): void {
-        this._boardStateService.makeMoves();
+    public submitMove(piece?: number): void {
+        this._boardStateService.makeMoves(null, null, piece);
     }
 }

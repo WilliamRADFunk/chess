@@ -6,11 +6,6 @@ import { checkForCheck } from './check-for-check';
 
 export function findClickableCells(direction: number, boardState: Board, moveChainCells: Cell[]): Cell[] {
     const chainLength = moveChainCells.length;
-    // TODO:
-    // If player has been checked, find only the pieces that can do anything to break out of it.
-    // if (checked) {
-    //     return findPiecesToBreakFromCheck();
-    // }
     // If no moves have been made yet, find all player's moveable pieces and return their ids.
     let clickableCells = [];
     if (!chainLength) {
@@ -31,11 +26,6 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
 
 export function findClickableIds(direction: number, boardState: Board, moveChainCells: Cell[]): number[] {
     const chainLength = moveChainCells.length;
-    // TODO:
-    // If player has been checked, find only the pieces that can do anything to break out of it.
-    // if (checked) {
-    //     return findPiecesToBreakFromCheck();
-    // }
     // If no moves have been made yet, find all player's moveable pieces and return their ids.
     let clickableCells = findClickableCells(direction, boardState, moveChainCells);
     const clickableIds = [];

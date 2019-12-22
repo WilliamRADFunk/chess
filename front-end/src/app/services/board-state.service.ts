@@ -55,7 +55,7 @@ export class BoardStateService {
     });
     private readonly _playerInCheck: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private readonly _playersNumber: BehaviorSubject<number> = new BehaviorSubject<number>(1);
-    private readonly _readyToSubmit: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private readonly _readyToSubmit: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private readonly _styleOfPieces: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private readonly _timer: BehaviorSubject<number> = new BehaviorSubject<number>(20);
     private _timerId: number;
@@ -76,7 +76,7 @@ export class BoardStateService {
     readonly currPlayerNumber: Observable<number> = this._playersNumber.asObservable();
     readonly currStyleOFPieces: Observable<number> = this._styleOfPieces.asObservable();
     readonly currTimer: Observable<number> = this._timer.asObservable();
-    readonly readyToSubmit: Observable<boolean> = this._readyToSubmit.asObservable();
+    readonly readyToSubmit: Observable<number> = this._readyToSubmit.asObservable();
 
     constructor(/*private socket: Socket*/) {
         // this.socket.on('updated people count', data => {
@@ -101,7 +101,7 @@ export class BoardStateService {
         //                     findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
         //             } else {
         //                 this._clickableCellIds.next([]);
-        //                 this._readyToSubmit.next(false);
+        //                 this._readyToSubmit.next(0);
         //                 this._moveChainIds.next([]);
         //                 this._moveChainCells = [];
         //             }
@@ -129,7 +129,7 @@ export class BoardStateService {
         //             this._clickableCellIds.next(findClickableIds(data.board.activePlayer, data.board, []));
         //         } else {
         //             this._clickableCellIds.next([]);
-        //             this._readyToSubmit.next(false);
+        //             this._readyToSubmit.next(0);
         //             this._moveChainIds.next([]);
         //             this._moveChainCells = [];
         //         }
@@ -142,8 +142,6 @@ export class BoardStateService {
         this._moveChainCells.length = 0;
         this._moveChainIds.next([]);
         const board = this._boardState.value;
-
-        promotePiece(board);
         
         const newActivePlayer = this._activePlayer.value === 1 ? 2 : 1;
         this._activePlayer.next(newActivePlayer);
@@ -239,11 +237,17 @@ export class BoardStateService {
         const idChain = this._moveChainIds.value;
         const chainLength = idChain.length;
         if (chainLength > 1) {
+            const clonedBoard = cloneBoard(this._boardState.value);
+            makeMoves(clonedBoard, idChain.slice(), this._moveChainCells.slice());
+            const promotion = promotePiece(clonedBoard);
             this._clickableCellIds.next([]);
-            this._readyToSubmit.next(true);
-            return;
+            if (promotion) {
+                this._readyToSubmit.next(2);
+                return;
+            }
+            this._readyToSubmit.next(1);
         } else {
-            this._readyToSubmit.next(false);
+            this._readyToSubmit.next(0);
             this._clickableCellIds.next(findClickableIds(this._activePlayer.value, this._boardState.value, this._moveChainCells));
         }
     }
@@ -316,9 +320,19 @@ export class BoardStateService {
         this._joiningRoom.next(true);
     }
 
-    public makeMoves(moveChainIds?: number[], moveChainCells?: Cell[]): void {
-        this._readyToSubmit.next(false);
-        makeMoves(this._boardState.value, moveChainIds || this._moveChainIds.value, moveChainCells || this._moveChainCells);
+    public makeMoves(moveChainIds?: number[], moveChainCells?: Cell[], promotionPiece?: number): void {
+        this._readyToSubmit.next(0);
+        const ids = moveChainIds || this._moveChainIds.value;
+        const cells = moveChainCells || this._moveChainCells;
+        // For promotion piece use.
+        const lastCell = this._moveChainCells[1];
+        // Finish moving the pieces.
+        makeMoves(this._boardState.value, ids, cells);
+        // Transform lastCell is piece was promoted.
+        if (promotionPiece) {
+            lastCell.value = promotionPiece;
+        }
+        // Done moving & promoting pieces, time to let the next player have a go.
         this._changeTurn();
         const boardState = this._boardState.value;
         if (this._opponent === 3) {
@@ -326,7 +340,7 @@ export class BoardStateService {
             boardState.gameStatus = this._gameStatus.value;
             // this.socket.emit('movement', { board: boardState, id: this._id, roomCode: this._hostedRoomCode.value});
             this._clickableCellIds.next([]);
-            this._readyToSubmit.next(false);
+            this._readyToSubmit.next(0);
             this._moveChainIds.next([]);
             this._moveChainCells = [];
         }
@@ -336,14 +350,13 @@ export class BoardStateService {
 
     public reset(playerNumber?: number, opponentPlayerNumber?: number): void {
         this._opponentThinking.next(false);
-        this._readyToSubmit.next(false);
         this._playersNumber.next(playerNumber || Math.random() > 0.5 ? 1 : 2);
         this._opponentPlayerNumber.next(opponentPlayerNumber || this._playersNumber.value === 1 ? 2 : 1);
         this._gameStatus.next(0);
         this._activePlayer.next(1);
         this._boardState.next(resetBoard());
         this._clickableCellIds.next([]);
-        this._readyToSubmit.next(false);
+        this._readyToSubmit.next(0);
         this._moveChainIds.next([]);
         this._moveChainCells = [];
 
