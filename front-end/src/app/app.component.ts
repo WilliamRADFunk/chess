@@ -93,10 +93,10 @@ export class AppComponent implements OnDestroy, OnInit {
                 .subscribe((pn: number) => {
                     this.playerNumber = pn;
                 }),
-            this._boardStateService.currPlayerNumber
+            this._boardStateService.currOpponentPlayerNumber
                 .pipe(filter(x => !!x))
                 .subscribe((opn: number) => {
-                    this.opponentPlayerNumber = opn === 1 ? 2 : 1;
+                    this.opponentPlayerNumber = opn;
                 }),
             this._boardStateService.readyToSubmit
                 .subscribe(submittable => {
