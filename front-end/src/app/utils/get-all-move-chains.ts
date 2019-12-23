@@ -8,7 +8,7 @@ export function getAllMoveChains(board: Board, currPlayer: number, startingPiece
     startingPieces.forEach(id => {
         const firstMoves = findClickableIds(currPlayer, board, convertIdsToCells(board, [id]));
         firstMoves.forEach(move => {
-            results.push(getMoveChains(board, currPlayer, [id, move], depth));
+            results.push(getMoveChains(board, [id, move], depth));
         });
     });
     const allChains = [];
@@ -17,5 +17,6 @@ export function getAllMoveChains(board: Board, currPlayer: number, startingPiece
             allChains.push(chain);
         });
     });
+
     return allChains;
 }

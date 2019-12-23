@@ -2,7 +2,6 @@ import { checkForEndGame } from './check-for-endgame';
 import { cloneBoard } from './clone-board';
 import { convertBoardToKey } from './convert-board-to-key';
 import { convertIdsToCells } from './convert-ids-to-cells';
-import { promotePiece } from './promote-piece';
 import { findClickableIds } from './find-clickable';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
@@ -24,6 +23,7 @@ export function aiMove(
         const score = ((gameStatus === aiPlayer) ? Infinity : -Infinity) - depth;
         return score;
     }
+
     // Avoids exceeding max callstack. Also allows for variable ai difficulty.
     if (aiPlayer === currPlayer && depth <= 0) {
         let aiPlayerPieceCount = 0;
@@ -48,8 +48,7 @@ export function aiMove(
     const scores = [];
     getAllMoveChains(board, currPlayer, clickableIds, depth).forEach(chain => {
         const newBoard = cloneBoard(board);
-        makeMoves(newBoard, chain, convertIdsToCells(newBoard, chain));
-        promotePiece(newBoard); // TODO: Must turn this step into 4 extra boards (queen, bishop, knight, rook).
+        makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined !== memoizationTable[bKey]) {
             scores.push(memoizationTable[bKey]);
@@ -61,10 +60,10 @@ export function aiMove(
         // Pruning the tree. If non-ai player, if minimum is already found stop looking.
         // If ai-player and max is already found, stop looking.
         if (memoizationTable[bKey] === -Infinity && currPlayer !== aiPlayer) {
-            console.log('aiMove bail early for min');
+            console.log('aiMove bail early for min', memoizationTable[bKey]);
             return memoizationTable[bKey];
         } else if (memoizationTable[bKey] === Infinity && currPlayer === aiPlayer) {
-            console.log('aiMove bail early for max');
+            console.log('aiMove bail early for max', memoizationTable[bKey]);
             return memoizationTable[bKey];
         }
     });

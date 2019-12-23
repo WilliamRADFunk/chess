@@ -16,6 +16,8 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
             return findAvailableMoves(cell, boardState)
                 .filter(cellEnd => !checkForCheck(cell, cellEnd, boardState)).length;
         });
+    } else if (chainLength >= 2) {
+        return moveChainCells
     } else {
         clickableCells = findAvailableMoves(moveChainCells[0], boardState)
             .filter(cellEnd => !checkForCheck(moveChainCells[0], cellEnd, boardState));
@@ -23,10 +25,7 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
     return clickableCells;
 }
 
-
 export function findClickableIds(direction: number, boardState: Board, moveChainCells: Cell[]): number[] {
-    const chainLength = moveChainCells.length;
-    // If no moves have been made yet, find all player's moveable pieces and return their ids.
     let clickableCells = findClickableCells(direction, boardState, moveChainCells);
     const clickableIds = [];
     clickableCells.forEach(cell => {

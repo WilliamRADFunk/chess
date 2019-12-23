@@ -2,7 +2,6 @@ import { aiMove } from './ai-move';
 import { cloneBoard } from './clone-board';
 import { convertBoardToKey } from './convert-board-to-key';
 import { convertIdsToCells } from './convert-ids-to-cells';
-import { promotePiece } from './promote-piece';
 import { findMaxScore } from './find-max-score';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
@@ -20,8 +19,7 @@ export function aiDecider(
     const scores: AIChoiceTrack[] = [];
     getAllMoveChains(board, aiPlayer, startingPieces, 4).forEach(chain => {
         const newBoard = cloneBoard(board);
-        makeMoves(newBoard, chain, convertIdsToCells(newBoard, chain));
-        promotePiece(newBoard); // TODO: Must turn this step into 4 extra boards (queen, bishop, knight, rook).
+        makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined === memoizationTable[bKey]) {
             memoizationTable[bKey] = aiMove(
@@ -31,6 +29,7 @@ export function aiDecider(
                 aiDifficulty + 1,
                 memoizationTable);
         }
+        console.log('aiDecider', chain);
         scores.push({ moveChainIds: chain, score: memoizationTable[bKey] });
 
         // Pruning the tree. If non-ai player, if minimum is already found stop looking.
@@ -43,5 +42,6 @@ export function aiDecider(
             return { moveChainIds: chain, score: memoizationTable[bKey] };
         }
     });
+    console.log('aiDecider', scores);
     return findMaxScore(scores);
 }

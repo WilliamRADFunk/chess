@@ -55,7 +55,6 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
         for (let j = 0; j < moves.length; j++) {
             const move = moves[j];
             if (move.position[0] === king.position[0] && move.position[1] === king.position[1]) {
-                console.log("CHECK!");
                 return true;
             }
         }
