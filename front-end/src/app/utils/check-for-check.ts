@@ -30,12 +30,10 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
 
     // Find the moving player's king.
     let king;
-    const rows = clonedBoard.cellStates;
-    for (let x = 0; x < rows.length; x++) {
-        const cols = rows[x];
-        for (let y = 0; y < cols.length; y++) {
-            if (cols[y].value === 6 && cols[y].player === clonedCellEnd.player) {
-                king = cols[y];
+    for (const cols of clonedBoard.cellStates) {
+        for (const col of cols) {
+            if (col.value === 6 && col.player === clonedCellEnd.player) {
+                king = col;
                 break;
             }
         }
