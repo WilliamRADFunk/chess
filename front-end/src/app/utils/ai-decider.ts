@@ -26,7 +26,7 @@ export function aiDecider(
                 newBoard,
                 aiPlayer,
                 currPlayer === 2 ? 1 : 2,
-                aiDifficulty + 1,
+                aiDifficulty + 2,
                 memoizationTable);
         }
         console.log('aiDecider', chain);

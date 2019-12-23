@@ -96,7 +96,7 @@ export class AppComponent implements OnDestroy, OnInit {
             this._boardStateService.currPlayerNumber
                 .pipe(filter(x => !!x))
                 .subscribe((opn: number) => {
-                    this.opponentPlayerNumber = opn;
+                    this.opponentPlayerNumber = opn === 1 ? 2 : 1;
                 }),
             this._boardStateService.readyToSubmit
                 .subscribe(submittable => {
@@ -181,7 +181,7 @@ export class AppComponent implements OnDestroy, OnInit {
     public gameroomCodeEntered(code: string): void {
         this._gameroomCodeByUser = code;
     }
-    
+
     public getClassStyling(value: number): { [key: string]: boolean } {
         const classStyle = {
             'black-team-color': false,
@@ -205,20 +205,20 @@ export class AppComponent implements OnDestroy, OnInit {
         }
         return classStyle;
     }
-    
+
     public getPromotionMesg(value: number): string {
-        switch(value) {
+        switch (value) {
             case 5: {
-                return 'Promote to Queen'
+                return 'Promote to Queen';
             }
             case 4: {
-                return 'Promote to Bishop'
+                return 'Promote to Bishop';
             }
             case 3: {
-                return 'Promote to Knight'
+                return 'Promote to Knight';
             }
             case 2: {
-                return 'Promote to Rook'
+                return 'Promote to Rook';
             }
         }
     }

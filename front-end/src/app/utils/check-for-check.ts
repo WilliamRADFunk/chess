@@ -49,11 +49,10 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
      * then the player having moved will be in check.
      * (Note: if cellStart and cellEnd are the same it checks if player is already in check).
      */
-    let pieces = findPiecesForPlayer(potentiallyCheckingPlayer, clonedBoard);
-    for (let i = 0; i < pieces.length; i++) {
-        const moves = findAvailableMoves(pieces[i], clonedBoard);
-        for (let j = 0; j < moves.length; j++) {
-            const move = moves[j];
+    const pieces = findPiecesForPlayer(potentiallyCheckingPlayer, clonedBoard);
+    for (const piece of pieces) {
+        const moves = findAvailableMoves(piece, clonedBoard);
+        for (const move of moves) {
             if (move.position[0] === king.position[0] && move.position[1] === king.position[1]) {
                 return true;
             }

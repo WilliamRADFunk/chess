@@ -42,7 +42,7 @@ export class CellComponent implements OnDestroy, OnInit {
                 });
             })
         );
-        this.isOnSquare = (this.cell.position[0] % 2) + (this.cell.position[1] % 2) === 1;
+        this.isOnSquare = !((this.cell.position[0] % 2) + (this.cell.position[1] % 2) === 1);
         this.id = this.cell.id;
     }
 

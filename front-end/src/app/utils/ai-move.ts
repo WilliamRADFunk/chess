@@ -15,6 +15,9 @@ export function aiMove(
     depth: number,
     memoizationTable: { [key: string]: number }
 ): number {
+    if (depth > 1) {
+      console.log('aiMove', depth);
+    }
     const moveChainCells = convertIdsToCells(board, []);
     const clickableIds = findClickableIds(currPlayer, board, moveChainCells);
     // First move of this player's new turn. Check to see if game is already over for this board configuration.

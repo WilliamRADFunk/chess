@@ -142,16 +142,15 @@ export class BoardStateService {
         this._moveChainCells.length = 0;
         this._moveChainIds.next([]);
         const board = this._boardState.value;
-        
+
         const newActivePlayer = this._activePlayer.value === 1 ? 2 : 1;
         this._activePlayer.next(newActivePlayer);
 
         let randomCell;
-        for (let i = 0; i < board.cellStates.length; i++) {
-            const cols = board.cellStates[i];
-            for (let j = 0; j < cols.length; j++) {
-                if (cols[j].player === newActivePlayer) {
-                    randomCell = cols[j];
+        for (const cols of board.cellStates) {
+            for (const col of cols) {
+                if (col.player === newActivePlayer) {
+                    randomCell = col;
                     break;
                 }
             }
