@@ -31,7 +31,7 @@
     <div *ngIf="activePage === 1" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          Each player can move one piece per turn, and only diagonally along the dark tiles.
+          Pawn Moves 01: A pawn can move one space (the opposite side of the bard from which it started), if not blocked by another piece.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-01.jpg"/></div>
@@ -41,7 +41,7 @@
     <div *ngIf="activePage === 2" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          Unless a piece has been made a king, it could only move in the same vertical direction.
+          Pawn Moves 02: For its first move, a pawn can move vertically two spaces if it isn't blocked by another piece.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-02.jpg"/></div>
@@ -51,14 +51,7 @@
     <div *ngIf="activePage === 3" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          Unless jumping over an opponent's piece, a player's piece can move diagonally only one tile.
-          <br/>
-          <br/>
-          If jumping over an opponent's piece, the player's piece can and must leap two tiles diagonally.
-          <br/>
-          <br/>
-          If a combination of jumps are available to the same piece in the same vertical direction,
-          a player's piece can make multiple hops in the same turn.
+          Pawn Moves 03: A pawn can capture an opponent piece only by moving diagonoally one space in its permitted vertical direction.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-03.jpg"/></div>
@@ -68,10 +61,10 @@
     <div *ngIf="activePage === 4" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          When a piece reaches the opposite end of the board, it is converted into a king.
+          Knight Moves: Any combination of two spaces vertically and one horizontally, or two horizontally and one vertically. Order doesn't matter.
           <br/>
           <br/>
-          A king can move diagonally in either of the two vertical directions, and jump opponent pieces with the same freedom.
+          The knight can "jump over" pieces, but can not "land" on it's own pieces.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-04.jpg"/></div>
@@ -81,7 +74,7 @@
     <div *ngIf="activePage === 5" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          To win the game, a player must either: eliminate all of the opponents' pieces,
+          Rook Moves 01: The rook moves any number of spaces along a straight line, vertically or horizontally.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-05.jpg"/></div>
@@ -91,10 +84,36 @@
     <div *ngIf="activePage === 6" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          ... or trap the opponent in such a way that they have no valid moves to make during their turn.
+          Rook Moves 02: A rook is blocked by its own pieces. It can't jump pieces like a knight.
+          <br/>
+          <br/>
+          It can capture an enemy piece along those straight lines, but again can't jump pieces like the knight.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-06.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 7" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Bishop Moves 01: The bishop moves along a diagonal line in any of the four directions from its position.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-07.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 8" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Bishop Moves 02: A bishop is blocked by its own pieces. It can't jump pieces like a knight.
+          <br/>
+          <br/>
+          It can capture an enemy piece along those diagonal lines, but again can't jump pieces like the knight.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-08.jpg"/></div>
         </div>
       </div>
     </div>
