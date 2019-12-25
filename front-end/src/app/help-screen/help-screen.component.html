@@ -120,10 +120,39 @@
     <div *ngIf="activePage === 9" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          Queen Moves 01: The queen is unique in that it can do what the bishop and the rook can do.
+          Queen Moves: The queen is unique in that it can do what both the bishop and the rook can do.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-09.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 10" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          King Moves 01: The king can move one space in any direction, except when blocked by one of its own pieces.
+          <br/>
+          <br/>
+          Note: it can't move into a space that an enemy piece can attack during its upcoming turn.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-10.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 11" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          King Moves 02: If the king hasn't made a move before, and the same goes for one of the rooks, it can perform a maneuver called "castling".
+          <br/>
+          <br/>
+          The king moves two spaces toward the rook, and the rook moves to the opposite side of the king from which it started.
+          <br/>
+          <br/>
+          Note: the spaces between the king and rook must be empty for this maneuver to work.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-11.jpg"/></div>
         </div>
       </div>
     </div>
