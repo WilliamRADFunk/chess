@@ -156,5 +156,64 @@
         </div>
       </div>
     </div>
+    <div *ngIf="activePage === 12" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Promotion: When a pawn reaches the opposite end of the board, it gets promoted.
+          <br/>
+          <br/>
+          You can choose to replace it with a queen, bishop, knight, or a rook by selecting the corresponding option on the left side of the screen.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-12.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 13" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Checking: When a player's move ends with a piece capable of attacking their opponent's king, that opponent is in check.
+          <br/>
+          <br/>
+          That opponent must get their king out of check in their next turn.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-13.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 14" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Checkmate: If the opponent can't get their king out of check, they lose.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-14.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 15" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Stalemate 01: If a player is unable to move without putting themselves into check, the game is considered a stalemate. 
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-15.jpg"/></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activePage === 16" class="d-flex justify-content-center">
+      <div class="col text-left text-white pb-2 pt-2">
+        <div class="h4">
+          Stalemate 02: When a player has lost all of their pieces save the king,
+          <br/>
+          <br/>
+          they can still manage a stalemate if they survive for 30 turns without going into checkmate.
+          <br/>
+          <br/>
+          <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-16.jpg"/></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
