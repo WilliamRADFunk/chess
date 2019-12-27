@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ManComponent } from './man.component';
@@ -13,6 +14,7 @@ describe('ManComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 NgbModule,
+                NoopAnimationsModule,
                 RouterTestingModule
             ],
             declarations: [
