@@ -33,7 +33,7 @@ export class ManComponent {
     public getClassStyling(): { [key: string]: boolean } {
         const value = this.cell.value;
         const classStyle = {
-            'rotate': this.playerNumber === 2,
+            rotate: this.playerNumber === 2,
             'pawn-1': value === 1 && this.style === 0,
             'pawn-2': value === 1 && this.style === 1,
             'pawn-3': value === 1 && this.style === 2,

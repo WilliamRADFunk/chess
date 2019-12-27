@@ -10,7 +10,7 @@ export function getCapturedPiecesCount(boardState: Board, playerNumber: number):
     let queens = 0;
 
     pieces.forEach(piece => {
-        switch(piece.value) {
+        switch (piece.value) {
             case 1: {
                 pawns++;
                 break;

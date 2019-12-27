@@ -17,7 +17,7 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
                 .filter(cellEnd => !checkForCheck(cell, cellEnd, boardState)).length;
         });
     } else if (chainLength >= 2) {
-        return moveChainCells
+        return moveChainCells;
     } else {
         clickableCells = findAvailableMoves(moveChainCells[0], boardState)
             .filter(cellEnd => !checkForCheck(moveChainCells[0], cellEnd, boardState));
@@ -26,7 +26,7 @@ export function findClickableCells(direction: number, boardState: Board, moveCha
 }
 
 export function findClickableIds(direction: number, boardState: Board, moveChainCells: Cell[]): number[] {
-    let clickableCells = findClickableCells(direction, boardState, moveChainCells);
+    const clickableCells = findClickableCells(direction, boardState, moveChainCells);
     const clickableIds = [];
     clickableCells.forEach(cell => {
         clickableIds.push(cell.id);

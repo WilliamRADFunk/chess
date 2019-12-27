@@ -1,5 +1,5 @@
 export function getPiecePointValue(piece: number): number {
-    switch(piece) {
+    switch (piece) {
         case 1: {
             return 1;
         }
