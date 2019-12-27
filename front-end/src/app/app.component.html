@@ -37,7 +37,7 @@
                         </ng-container>
                     </span>
                     <span
-                        *ngIf="checkedPlayer === playerNumber && !gameOver"
+                        *ngIf="(checkedPlayer === activePlayer) && !gameOver"
                         class="h4 text-warning d-inline-block my-2 mb-sm-0">
                         CHECK!
                     </span>

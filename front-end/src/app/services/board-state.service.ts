@@ -143,13 +143,12 @@ export class BoardStateService {
         this._moveChainIds.next([]);
         const board = this._boardState.value;
 
-        const newActivePlayer = this._activePlayer.value === 1 ? 2 : 1;
-        this._activePlayer.next(newActivePlayer);
+        this._activePlayer.next(this._activePlayer.value === 1 ? 2 : 1);
 
         let randomCell;
         for (const cols of board.cellStates) {
             for (const col of cols) {
-                if (col.player === newActivePlayer) {
+                if (col.player === this._activePlayer.value) {
                     randomCell = col;
                     break;
                 }
@@ -158,7 +157,7 @@ export class BoardStateService {
                 break;
             }
         }
-        this._playerInCheck.next(checkForCheck(randomCell, randomCell, board) ? newActivePlayer : 0);
+        this._playerInCheck.next(checkForCheck(randomCell, randomCell, board) ? this._activePlayer.value : 0);
         this._clickableCellIds.next(findClickableIds(this._activePlayer.value, board, this._moveChainCells));
         this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length));
 
@@ -348,6 +347,7 @@ export class BoardStateService {
     }
 
     public reset(playerNumber?: number, opponentPlayerNumber?: number): void {
+        this._playerInCheck.next(0);
         this._opponentThinking.next(false);
         this._playersNumber.next(playerNumber || Math.random() > 0.5 ? 1 : 2);
         this._opponentPlayerNumber.next(opponentPlayerNumber || this._playersNumber.value === 1 ? 2 : 1);
