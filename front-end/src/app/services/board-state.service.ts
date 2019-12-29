@@ -293,7 +293,6 @@ export class BoardStateService {
     }
 
     public disconnectSocket(opponentTimedout?: boolean) {
-        console.log('quit', this._id);
         // this.socket.emit('quit', { id: this._id, timedout: opponentTimedout });
     }
 

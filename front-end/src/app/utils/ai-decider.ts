@@ -26,10 +26,9 @@ export function aiDecider(
                 newBoard,
                 aiPlayer,
                 currPlayer === 2 ? 1 : 2,
-                aiDifficulty + 2,
+                aiDifficulty + 1,
                 memoizationTable);
         }
-        console.log('aiDecider', chain);
         scores.push({ moveChainIds: chain, score: memoizationTable[bKey] });
 
         // Pruning the tree. If non-ai player, if minimum is already found stop looking.

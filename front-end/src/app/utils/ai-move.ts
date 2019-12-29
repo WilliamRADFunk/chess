@@ -7,6 +7,7 @@ import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
 import { getPiecePointValue } from './get-piece-point-value';
+import { checkForCheck } from './check-for-check';
 
 export function aiMove(
     board: Board,
@@ -15,9 +16,6 @@ export function aiMove(
     depth: number,
     memoizationTable: { [key: string]: number }
 ): number {
-    if (depth > 1) {
-      console.log('aiMove', depth);
-    }
     const moveChainCells = convertIdsToCells(board, []);
     const clickableIds = findClickableIds(currPlayer, board, moveChainCells);
     // First move of this player's new turn. Check to see if game is already over for this board configuration.
@@ -28,9 +26,12 @@ export function aiMove(
     }
 
     // Avoids exceeding max callstack. Also allows for variable ai difficulty.
-    if (aiPlayer === currPlayer && depth <= 0) {
+    if (depth <= 0) {
         let aiPlayerPieceCount = 0;
         let nonAiPlayerPieceCount = 0;
+
+        let randomAICell;
+        let randomHumanCell;
 
         board.cellStates.forEach(row => {
             row.forEach(cell => {
@@ -38,14 +39,19 @@ export function aiMove(
                     return;
                 }
                 if (cell.player === aiPlayer) {
+                    randomAICell = cell;
                     aiPlayerPieceCount += getPiecePointValue(cell.value);
                 } else {
+                    randomHumanCell = cell;
                     nonAiPlayerPieceCount -= getPiecePointValue(cell.value);
                 }
             });
         });
-        const score = aiPlayerPieceCount + nonAiPlayerPieceCount;
-        return score;
+        // The more pieces ai has, the more points it assigns. The opposite for the more pieces the human player has.
+        // Higher preference placed on putting human player in check and having AI stay out of check.
+        const checkedAI = checkForCheck(randomAICell, randomAICell, board);
+        const checkedHuman = checkForCheck(randomHumanCell, randomHumanCell, board);
+        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 10 : 0) - (checkedAI ? 10 : 0);
     }
 
     const scores = [];

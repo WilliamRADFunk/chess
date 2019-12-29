@@ -12,16 +12,12 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
     // The player whose move will be next after this prospective move.
     const potentiallyCheckingPlayer = cellStart.player === 1 ? 2 : 1;
 
-    let cellsTheSame = false;
-    if (clonedCellStart.player === clonedCellEnd.player) {
-        cellsTheSame = true;
-    }
-    clonedCellEnd.dirty = true;
-    clonedCellEnd.player = cellStart.player;
-    clonedCellEnd.playerColor = cellStart.playerColor;
-    clonedCellEnd.value = cellStart.value;
+    if (!(clonedCellStart.position[0] === clonedCellEnd.position[0] && clonedCellStart.position[1] === clonedCellEnd.position[1])) {
+        clonedCellEnd.dirty = true;
+        clonedCellEnd.player = cellStart.player;
+        clonedCellEnd.playerColor = cellStart.playerColor;
+        clonedCellEnd.value = cellStart.value;
 
-    if (!cellsTheSame) {
         clonedCellStart.dirty = true;
         clonedCellStart.player = 0;
         clonedCellStart.playerColor = '';
@@ -31,15 +27,20 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
     // Find the moving player's king.
     let king;
     for (const cols of clonedBoard.cellStates) {
-        for (const col of cols) {
-            if (col.value === 6 && col.player === clonedCellEnd.player) {
-                king = col;
+        for (const cell of cols) {
+            if (cell.value === 6 && cell.player === clonedCellEnd.player) {
+                king = cell;
                 break;
             }
         }
         if (king) {
             break;
         }
+    }
+
+    
+    if (!king) {
+        console.log("Found no king", clonedBoard, clonedCellEnd.player);
     }
 
     /*
@@ -51,7 +52,8 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
     for (const piece of pieces) {
         const moves = findAvailableMoves(piece, clonedBoard);
         for (const move of moves) {
-            if (move.position[0] === king.position[0] && move.position[1] === king.position[1]) {
+            if (move.position[0] === king.position[0]
+                && move.position[1] === king.position[1]) {
                 return true;
             }
         }

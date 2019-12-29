@@ -9,10 +9,10 @@ export function makeMove(boardState: Board, row1: number, col1: number, row2: nu
         let rookAfter;
         let rookBefore;
         if (cellStateAfter.position[1] - cellStateBefore.position[1] > 0) {
-            rookAfter = cellStates[row1][row1 === 0 ? 5 : 4];
+            rookAfter = cellStates[row1][5];
             rookBefore = cellStates[row1][7];
         } else {
-            rookAfter = cellStates[row1][row1 === 0 ? 3 : 2];
+            rookAfter = cellStates[row1][3];
             rookBefore = cellStates[row1][0];
         }
         // Rook-castling specific movement.
