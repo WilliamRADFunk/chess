@@ -6,7 +6,6 @@ export function getMoveChains(board: Board, previousChain: number[], depth: numb
     const clonedBoard = cloneBoard(board);
     const cells = convertIdsToCells(clonedBoard, previousChain);
     if (cells.length === 2 && cells[0].value === 1 && (cells[1].position[0] === 0 || cells[1].position[0] === 7)) {
-        console.log('PROMOTION', previousChain, depth);
         return [
             [...previousChain, 5],
             [...previousChain, 4],

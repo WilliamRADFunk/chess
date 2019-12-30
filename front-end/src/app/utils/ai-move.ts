@@ -51,7 +51,7 @@ export function aiMove(
         // Higher preference placed on putting human player in check and having AI stay out of check.
         const checkedAI = checkForCheck(randomAICell, randomAICell, board);
         const checkedHuman = checkForCheck(randomHumanCell, randomHumanCell, board);
-        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 10 : 0) - (checkedAI ? 10 : 0);
+        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 20 : 0) - (checkedAI ? 20 : 0);
     }
 
     const scores = [];
@@ -62,7 +62,12 @@ export function aiMove(
         if (undefined !== memoizationTable[bKey]) {
             scores.push(memoizationTable[bKey]);
         } else {
-            memoizationTable[bKey] = aiMove(newBoard, aiPlayer, currPlayer === 2 ? 1 : 2, depth - 1, memoizationTable);
+            memoizationTable[bKey] = aiMove(
+              newBoard,
+              aiPlayer,
+              currPlayer === 2 ? 1 : 2,
+              currPlayer === aiPlayer ? (depth - 1) : depth,
+              memoizationTable);
             scores.push(memoizationTable[bKey]);
         }
 

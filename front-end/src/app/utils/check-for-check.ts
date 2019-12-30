@@ -38,9 +38,8 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
         }
     }
 
-    
     if (!king) {
-        console.log("Found no king", clonedBoard, clonedCellEnd.player);
+        console.log('Found no king', clonedBoard, clonedCellEnd.player);
     }
 
     /*
@@ -52,8 +51,19 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
     for (const piece of pieces) {
         const moves = findAvailableMoves(piece, clonedBoard);
         for (const move of moves) {
-            if (move.position[0] === king.position[0]
-                && move.position[1] === king.position[1]) {
+            if (!move) {
+              console.log('Move not a move',
+                'moves:', moves,
+                'piece:', piece,
+                'pieces:', pieces,
+                'potentiallyCheckingPlayer:', potentiallyCheckingPlayer,
+                'clonedBoard:', clonedBoard,
+                'king', king);
+            }
+            if (move.position[0] ===
+                king.position[0]
+                && move.position[1] ===
+                king.position[1]) {
                 return true;
             }
         }
