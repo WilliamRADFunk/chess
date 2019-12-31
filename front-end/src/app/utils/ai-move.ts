@@ -8,6 +8,7 @@ import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
 import { getPiecePointValue } from './get-piece-point-value';
 import { checkForCheck } from './check-for-check';
+import { getInversePosition } from './get-inverse-position';
 
 export function aiMove(
     board: Board,
@@ -18,56 +19,34 @@ export function aiMove(
 ): number {
     const moveChainCells = convertIdsToCells(board, []);
     const clickableIds = findClickableIds(currPlayer, board, moveChainCells);
+
     // First move of this player's new turn. Check to see if game is already over for this board configuration.
-    if (!clickableIds.length) {
-        const gameStatus = checkForEndGame(currPlayer, clickableIds.length);
-        const score = ((gameStatus === aiPlayer) ? Infinity : -Infinity) - depth;
-        return score;
+    const gameStatus = checkForEndGame(currPlayer, clickableIds.length);
+    if (gameStatus) {
+        return ((gameStatus === aiPlayer) ? Infinity : -Infinity);
     }
 
+    // Calculate score at this level.
+    const score = calculateScore(board, aiPlayer);
+
     // Avoids exceeding max callstack. Also allows for variable ai difficulty.
-    if (depth <= 0) {
-        let aiPlayerPieceCount = 0;
-        let nonAiPlayerPieceCount = 0;
-
-        let randomAICell;
-        let randomHumanCell;
-
-        board.cellStates.forEach(row => {
-            row.forEach(cell => {
-                if (!cell.player) {
-                    return;
-                }
-                if (cell.player === aiPlayer) {
-                    randomAICell = cell;
-                    aiPlayerPieceCount += getPiecePointValue(cell.value, cell.position);
-                } else {
-                    randomHumanCell = cell;
-                    nonAiPlayerPieceCount -= getPiecePointValue(cell.value, cell.position);
-                }
-            });
-        });
-        // The more pieces ai has, the more points it assigns. The opposite for the more pieces the human player has.
-        // Higher preference placed on putting human player in check and having AI stay out of check.
-        const checkedAI = checkForCheck(randomAICell, randomAICell, board);
-        const checkedHuman = checkForCheck(randomHumanCell, randomHumanCell, board);
-        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 25 : 0) - (checkedAI ? 25 : 0);
+    if (depth <= 0 && currPlayer === aiPlayer) {
+      return score;
     }
 
     let scores = [];
-    getAllMoveChains(board, currPlayer, clickableIds).some(chain => {
+    for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
         const newBoard = cloneBoard(board);
         makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined !== memoizationTable[bKey]) {
             scores.push(memoizationTable[bKey]);
         } else {
-            const passOnDepth = currPlayer === aiPlayer ? (depth - 1) : depth;
             memoizationTable[bKey] = aiMove(
               newBoard,
               aiPlayer,
               currPlayer === 2 ? 1 : 2,
-              passOnDepth,
+              depth - 1,
               memoizationTable);
             scores.push(memoizationTable[bKey]);
         }
@@ -77,17 +56,43 @@ export function aiMove(
         if (memoizationTable[bKey] === -Infinity && currPlayer !== aiPlayer) {
             console.log('aiMove bail early for min', memoizationTable[bKey]);
             scores = [memoizationTable[bKey]];
-            return true;
+            break;
         } else if (memoizationTable[bKey] === Infinity && currPlayer === aiPlayer) {
             console.log('aiMove bail early for max', memoizationTable[bKey]);
             scores = [memoizationTable[bKey]];
-            return true;
+            break;
         }
-        return false;
-    });
+    }
     if (currPlayer === aiPlayer) {
         return Math.max(...scores);
     } else {
         return Math.min(...scores);
     }
+}
+
+function calculateScore(board: Board, aiPlayer: number): number {
+    let aiPlayerPieceCount = 0;
+    let nonAiPlayerPieceCount = 0;
+    let randomAICell;
+    let randomHumanCell;
+
+    board.cellStates.forEach(row => {
+        row.forEach(cell => {
+            if (!cell.player) {
+                return;
+            }
+            if (cell.player === aiPlayer) {
+                randomAICell = cell;
+                aiPlayerPieceCount += getPiecePointValue(cell.value, cell.position);
+            } else {
+                randomHumanCell = cell;
+                nonAiPlayerPieceCount -= getPiecePointValue(cell.value, getInversePosition(cell.position));
+            }
+        });
+    });
+    // The more pieces ai has, the more points it assigns. The opposite for the more pieces the human player has.
+    // Higher preference placed on putting human player in check and having AI stay out of check.
+    const checkedAI = checkForCheck(randomAICell, randomAICell, board);
+    const checkedHuman = checkForCheck(randomHumanCell, randomHumanCell, board);
+    return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 50 : 0) - (checkedAI ? 50 : 0);
 }

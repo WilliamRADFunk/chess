@@ -17,7 +17,8 @@ export function aiDecider(
     memoizationTable: { [key: string]: number }
 ): AIChoiceTrack {
     let scores: AIChoiceTrack[] = [];
-    getAllMoveChains(board, aiPlayer, startingPieces).some(chain => {
+    for (const chain of getAllMoveChains(board, aiPlayer, startingPieces)) {
+        console.log('New Decider Chain', chain);
         const newBoard = cloneBoard(board);
         makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
@@ -34,18 +35,12 @@ export function aiDecider(
 
         // Pruning the tree. If non-ai player, if minimum is already found stop looking.
         // If ai-player and max is already found, stop looking.
-        if (memoizationTable[bKey] === -Infinity && currPlayer !== aiPlayer) {
-            console.log('aiDecider bail early for min');
-            scores = [{ moveChainIds: chain, score: memoizationTable[bKey] }];
-            return true;
-        } else if (memoizationTable[bKey] === Infinity && currPlayer === aiPlayer) {
+        if (memoizationTable[bKey] === Infinity && currPlayer === aiPlayer) {
             console.log('aiDecider bail early for max');
             scores = [{ moveChainIds: chain, score: memoizationTable[bKey] }];
-            return true;
-        } else {
-          return false;
+            break;
         }
-    });
+    }
     console.log('aiDecider', scores);
     return findMaxScore(scores);
 }
