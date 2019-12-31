@@ -16,6 +16,7 @@ import { makeMoves } from '../utils/make-moves';
 import { resetBoard } from '../utils/reset-board';
 import { getCapturedPiecesCount } from '../utils/get-captured-pieces-count';
 import { checkForCheck } from '../utils/check-for-check';
+import { getMemoizationTable } from '../utils/get-memoization-table';
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +31,7 @@ export class BoardStateService {
     private _hostedRoomCode: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private readonly _id: string = uuidv1.default();
     private _joiningRoom: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private _memoizationTable: { [key: string]: number } = {};
+    private _memoizationTable: { [key: string]: number } = getMemoizationTable();
     private _moveChainCells: Cell[] = [];
     private readonly _moveChainIds: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
     private _onlineMethod = 1;
@@ -202,11 +203,11 @@ export class BoardStateService {
         this._clickableCellIds.next([]);
         setTimeout(() => {
             const result = aiDecider(
-                cloneBoard(this._boardState.value),
+                this._boardState.value,
                 this._opponentPlayerNumber.value,
                 this._activePlayer.value,
                 availablePieces,
-                this._aiDifficulty,
+                this._aiDifficulty + 1,
                 this._memoizationTable);
             this.makeMoves(result.moveChainIds, convertIdsToCells(this._boardState.value, result.moveChainIds));
         }, 2000);

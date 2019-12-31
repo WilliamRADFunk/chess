@@ -34,12 +34,7 @@ export class CellComponent implements OnDestroy, OnInit {
                 this.clickableCells = clickables;
             }),
             this.boardStateService.currMoveChainIds.pipe(filter(x => !!x)).subscribe((trackedCells: number[]) => {
-                this.tracked = false;
-                trackedCells.forEach(id => {
-                    if (id === this.id) {
-                        this.tracked = true;
-                    }
-                });
+                this.tracked = !!trackedCells.some(id => id === this.id);
             })
         );
         this.isOnSquare = !((this.cell.position[0] % 2) + (this.cell.position[1] % 2) === 1);

@@ -33,7 +33,7 @@ export function findAllKingMoves(cell: Cell, boardState: Board): Cell[] {
     if (!cell.dirty) {
         let rookLeft;
         let rookRight;
-        const movesLeft = position[1] - 0;
+        const movesLeft = position[1];
         const movesRight = 7 - position[1];
         // Left
         const start = position[1];
@@ -67,15 +67,26 @@ export function findAllKingMoves(cell: Cell, boardState: Board): Cell[] {
             }
         }
         let potentialCell;
+        let newCellPosition;
         if (rookLeft) {
-            potentialCell = cellStates[position[0]][position[1] - 2];
+            newCellPosition = getRookNewPosition(rookLeft, position);
+            potentialCell = cellStates[newCellPosition[0]][newCellPosition[1]];
             availableMoves.push(potentialCell);
         }
         if (rookRight) {
-            potentialCell = cellStates[position[0]][position[1] + 2];
+            newCellPosition = getRookNewPosition(rookRight, position);
+            potentialCell = cellStates[newCellPosition[0]][newCellPosition[1]];
             availableMoves.push(potentialCell);
         }
     }
 
     return availableMoves;
+}
+
+function getRookNewPosition(origRookCell: Cell, newKingPosition: number[]): number[] {
+    if (newKingPosition[1] === 6) {
+        return [origRookCell.position[0], 5];
+    } else {
+        return [origRookCell.position[0], 3];
+    }
 }

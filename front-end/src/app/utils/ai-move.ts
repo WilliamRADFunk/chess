@@ -51,22 +51,23 @@ export function aiMove(
         // Higher preference placed on putting human player in check and having AI stay out of check.
         const checkedAI = checkForCheck(randomAICell, randomAICell, board);
         const checkedHuman = checkForCheck(randomHumanCell, randomHumanCell, board);
-        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 20 : 0) - (checkedAI ? 20 : 0);
+        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 20 : 0) - (checkedAI ? 40 : 0);
     }
 
-    const scores = [];
-    getAllMoveChains(board, currPlayer, clickableIds, depth).forEach(chain => {
+    let scores = [];
+    getAllMoveChains(board, currPlayer, clickableIds).some(chain => {
         const newBoard = cloneBoard(board);
         makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
         if (undefined !== memoizationTable[bKey]) {
             scores.push(memoizationTable[bKey]);
         } else {
+            const passOnDepth = currPlayer === aiPlayer ? (depth - 1) : depth;
             memoizationTable[bKey] = aiMove(
               newBoard,
               aiPlayer,
               currPlayer === 2 ? 1 : 2,
-              currPlayer === aiPlayer ? (depth - 1) : depth,
+              passOnDepth,
               memoizationTable);
             scores.push(memoizationTable[bKey]);
         }
@@ -75,11 +76,14 @@ export function aiMove(
         // If ai-player and max is already found, stop looking.
         if (memoizationTable[bKey] === -Infinity && currPlayer !== aiPlayer) {
             console.log('aiMove bail early for min', memoizationTable[bKey]);
-            return memoizationTable[bKey];
+            scores = [memoizationTable[bKey]];
+            return true;
         } else if (memoizationTable[bKey] === Infinity && currPlayer === aiPlayer) {
             console.log('aiMove bail early for max', memoizationTable[bKey]);
-            return memoizationTable[bKey];
+            scores = [memoizationTable[bKey]];
+            return true;
         }
+        return false;
     });
     if (currPlayer === aiPlayer) {
         return Math.max(...scores);

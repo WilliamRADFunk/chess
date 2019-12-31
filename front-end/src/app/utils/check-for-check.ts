@@ -38,10 +38,6 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
         }
     }
 
-    if (!king) {
-        console.log('Found no king', clonedBoard, clonedCellEnd.player);
-    }
-
     /*
      * If any of the avilable moves of the next player can attack the cell in which the king resides,
      * then the player having moved will be in check.
@@ -51,19 +47,17 @@ export function checkForCheck(cellStart: Cell, cellEnd: Cell, boardState: Board)
     for (const piece of pieces) {
         const moves = findAvailableMoves(piece, clonedBoard);
         for (const move of moves) {
-            if (!move) {
-              console.log('Move not a move',
-                'moves:', moves,
-                'piece:', piece,
-                'pieces:', pieces,
-                'potentiallyCheckingPlayer:', potentiallyCheckingPlayer,
-                'clonedBoard:', clonedBoard,
-                'king', king);
-            }
-            if (move.position[0] ===
-                king.position[0]
-                && move.position[1] ===
-                king.position[1]) {
+            // This is a king making a castling maneuver and therefore there are two pieces to check for check.
+            if (Array.isArray(move) && move.length === 2 && move[0].value === 6) {
+                const kingPiece = move[0];
+                const rookPiece = move[1];
+                if (kingPiece.position[0] === king.position[0] && kingPiece.position[1] === king.position[1]) {
+                  return true;
+                } else if (rookPiece.position[0] === king.position[0] && rookPiece.position[1] === king.position[1]) {
+                  return true;
+                }
+            // Normal non-castling maneuver.
+            } else if (move.position[0] === king.position[0] && move.position[1] === king.position[1]) {
                 return true;
             }
         }

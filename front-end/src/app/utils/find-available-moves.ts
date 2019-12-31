@@ -44,5 +44,5 @@ export function findAvailableMoves(cell: Cell, boardState: Board): Cell[] {
         }
     }
 
-    return availableMoves;
+    return availableMoves.filter(move => !!move);
 }
