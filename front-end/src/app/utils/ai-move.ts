@@ -40,10 +40,10 @@ export function aiMove(
                 }
                 if (cell.player === aiPlayer) {
                     randomAICell = cell;
-                    aiPlayerPieceCount += getPiecePointValue(cell.value);
+                    aiPlayerPieceCount += getPiecePointValue(cell.value, cell.position);
                 } else {
                     randomHumanCell = cell;
-                    nonAiPlayerPieceCount -= getPiecePointValue(cell.value);
+                    nonAiPlayerPieceCount -= getPiecePointValue(cell.value, cell.position);
                 }
             });
         });
@@ -51,7 +51,7 @@ export function aiMove(
         // Higher preference placed on putting human player in check and having AI stay out of check.
         const checkedAI = checkForCheck(randomAICell, randomAICell, board);
         const checkedHuman = checkForCheck(randomHumanCell, randomHumanCell, board);
-        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 20 : 0) - (checkedAI ? 40 : 0);
+        return (aiPlayerPieceCount + nonAiPlayerPieceCount) + (checkedHuman ? 25 : 0) - (checkedAI ? 25 : 0);
     }
 
     let scores = [];
