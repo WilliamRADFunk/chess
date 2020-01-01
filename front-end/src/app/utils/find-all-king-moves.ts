@@ -30,7 +30,7 @@ export function findAllKingMoves(cell: Cell, boardState: Board): Cell[] {
         }
     });
 
-    if (!cell.dirty) {
+    if (!cell.dirty && cell.position[1] === 4) {
         let rookLeft;
         let rookRight;
         const movesLeft = position[1];
@@ -67,26 +67,15 @@ export function findAllKingMoves(cell: Cell, boardState: Board): Cell[] {
             }
         }
         let potentialCell;
-        let newCellPosition;
         if (rookLeft) {
-            newCellPosition = getRookNewPosition(rookLeft, position);
-            potentialCell = cellStates[newCellPosition[0]][newCellPosition[1]];
+            potentialCell = cellStates[position[0]][position[1] - 2];
             availableMoves.push(potentialCell);
         }
         if (rookRight) {
-            newCellPosition = getRookNewPosition(rookRight, position);
-            potentialCell = cellStates[newCellPosition[0]][newCellPosition[1]];
+            potentialCell = cellStates[position[0]][position[1] + 2];
             availableMoves.push(potentialCell);
         }
     }
 
     return availableMoves;
-}
-
-function getRookNewPosition(origRookCell: Cell, newKingPosition: number[]): number[] {
-    if (newKingPosition[1] === 6) {
-        return [origRookCell.position[0], 5];
-    } else {
-        return [origRookCell.position[0], 3];
-    }
 }

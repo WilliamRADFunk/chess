@@ -8,32 +8,47 @@ export function makeMove(boardState: Board, row1: number, col1: number, row2: nu
     if (cellStateBefore.value === 6 && !cellStateBefore.dirty && Math.abs(col2 - col1) === 2) {
         let rookAfter;
         let rookBefore;
-        if (cellStateAfter.position[1] - cellStateBefore.position[1] > 0) {
+        if (cellStateAfter.position[1] - cellStateBefore.position[1] > 0 && cellStates[row1][7].value === 2 && !cellStates[row1][7].dirty) {
             rookAfter = cellStates[row1][5];
             rookBefore = cellStates[row1][7];
-        } else {
+        } else if (cellStates[row1][0].value === 2 && !cellStates[row1][0].dirty) {
             rookAfter = cellStates[row1][3];
             rookBefore = cellStates[row1][0];
         }
-        // Rook-castling specific movement.
-        rookAfter.dirty = true;
-        rookAfter.player = rookBefore.player;
-        rookAfter.value = rookBefore.value;
-        rookAfter.playerColor = rookBefore.playerColor;
 
-        rookBefore.dirty = true;
-        rookBefore.player = 0;
-        rookBefore.value = 0;
-        rookBefore.playerColor = '';
+        if (rookBefore && rookAfter) {
+          // Rook-castling specific movement.
+          rookAfter.dirty = true;
+          rookAfter.player = rookBefore.player;
+          rookAfter.value = rookBefore.value;
+          rookAfter.playerColor = rookBefore.playerColor;
+
+          rookBefore.dirty = true;
+          rookBefore.player = 0;
+          rookBefore.value = 0;
+          rookBefore.playerColor = '';
+
+          // King-castling specific movement.
+          cellStateAfter.dirty = true;
+          cellStateAfter.player = cellStateBefore.player;
+          cellStateAfter.value = cellStateBefore.value;
+          cellStateAfter.playerColor = cellStateBefore.playerColor;
+
+          cellStateBefore.dirty = true;
+          cellStateBefore.player = 0;
+          cellStateBefore.value = 0;
+          cellStateBefore.playerColor = '';
+        }
+    } else {
+      // Piece just moves if not castling.
+      cellStateAfter.dirty = true;
+      cellStateAfter.player = cellStateBefore.player;
+      cellStateAfter.value = cellStateBefore.value;
+      cellStateAfter.playerColor = cellStateBefore.playerColor;
+
+      cellStateBefore.dirty = true;
+      cellStateBefore.player = 0;
+      cellStateBefore.value = 0;
+      cellStateBefore.playerColor = '';
     }
-    // Piece moves no matter if castling of not.
-    cellStateAfter.dirty = true;
-    cellStateAfter.player = cellStateBefore.player;
-    cellStateAfter.value = cellStateBefore.value;
-    cellStateAfter.playerColor = cellStateBefore.playerColor;
-
-    cellStateBefore.dirty = true;
-    cellStateBefore.player = 0;
-    cellStateBefore.value = 0;
-    cellStateBefore.playerColor = '';
 }

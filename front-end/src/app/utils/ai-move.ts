@@ -15,6 +15,8 @@ export function aiMove(
     aiPlayer: number,
     currPlayer: number,
     depth: number,
+    alpha: number,
+    beta: number,
     memoizationTable: { [key: string]: number }
 ): number {
     const moveChainCells = convertIdsToCells(board, []);
@@ -23,50 +25,66 @@ export function aiMove(
     // First move of this player's new turn. Check to see if game is already over for this board configuration.
     const gameStatus = checkForEndGame(currPlayer, clickableIds.length);
     if (gameStatus) {
-        return ((gameStatus === aiPlayer) ? Infinity : -Infinity);
+        return ((gameStatus === aiPlayer) ? 100000 : -100000);
     }
-
-    // Calculate score at this level.
-    const score = calculateScore(board, aiPlayer);
 
     // Avoids exceeding max callstack. Also allows for variable ai difficulty.
     if (depth <= 0 && currPlayer === aiPlayer) {
-      return score;
+      return calculateScore(board, aiPlayer);
     }
 
-    let scores = [];
-    for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
-        const newBoard = cloneBoard(board);
-        makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
-        const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
-        if (undefined !== memoizationTable[bKey]) {
-            scores.push(memoizationTable[bKey]);
-        } else {
-            memoizationTable[bKey] = aiMove(
-              newBoard,
-              aiPlayer,
-              currPlayer === 2 ? 1 : 2,
-              depth - 1,
-              memoizationTable);
-            scores.push(memoizationTable[bKey]);
-        }
+    const isMin = currPlayer !== aiPlayer;
+    // Pruning the tree
+    if (!isMin) {
+        let bestScore = -100000;
+        for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
+            const newBoard = cloneBoard(board);
+            makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
+            const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
 
-        // Pruning the tree. If non-ai player, if minimum is already found stop looking.
-        // If ai-player and max is already found, stop looking.
-        if (memoizationTable[bKey] === -Infinity && currPlayer !== aiPlayer) {
-            console.log('aiMove bail early for min', memoizationTable[bKey]);
-            scores = [memoizationTable[bKey]];
-            break;
-        } else if (memoizationTable[bKey] === Infinity && currPlayer === aiPlayer) {
-            console.log('aiMove bail early for max', memoizationTable[bKey]);
-            scores = [memoizationTable[bKey]];
-            break;
+            if (undefined === memoizationTable[bKey]) {
+                memoizationTable[bKey] = aiMove(
+                  newBoard,
+                  aiPlayer,
+                  currPlayer === 2 ? 1 : 2,
+                  depth - 1,
+                  alpha,
+                  beta,
+                  memoizationTable);
+            }
+
+            bestScore = Math.max(bestScore, memoizationTable[bKey]);
+            alpha = Math.max(alpha, bestScore);
+            if (beta <= alpha) {
+                break;
+            }
         }
-    }
-    if (currPlayer === aiPlayer) {
-        return Math.max(...scores);
+        return bestScore;
     } else {
-        return Math.min(...scores);
+        let bestScore = 100000;
+        for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
+            const newBoard = cloneBoard(board);
+            makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
+            const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
+
+            if (undefined === memoizationTable[bKey]) {
+                memoizationTable[bKey] = aiMove(
+                  newBoard,
+                  aiPlayer,
+                  currPlayer === 2 ? 1 : 2,
+                  depth - 1,
+                  alpha,
+                  beta,
+                  memoizationTable);
+            }
+
+            bestScore = Math.min(bestScore, memoizationTable[bKey]);
+            beta = Math.min(beta, bestScore);
+            if (beta <= alpha) {
+                break;
+            }
+        }
+        return bestScore;
     }
 }
 
