@@ -1,8 +1,7 @@
-import { aiMove } from './ai-move';
+import { aiMove, getNumMovesChecked, resetCounter } from './ai-move';
 import { cloneBoard } from './clone-board';
 import { convertBoardToKey } from './convert-board-to-key';
 import { convertIdsToCells } from './convert-ids-to-cells';
-import { findMaxScore } from './find-max-score';
 import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
 import { AIChoiceTrack } from '../models/ai-choice-track';
@@ -36,5 +35,8 @@ export function aiDecider(
         }
         console.log('Root chain calculated: ', chain, memoizationTable[bKey]);
     }
+    // TODO: GUI component that shows number of configurations the AI has investigated for their move.
+    console.log('Number of configurations checked: ', getNumMovesChecked());
+    resetCounter();
     return bestScore;
 }

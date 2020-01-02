@@ -10,6 +10,16 @@ import { getPiecePointValue } from './get-piece-point-value';
 import { checkForCheck } from './check-for-check';
 import { getInversePosition } from './get-inverse-position';
 
+let numMovesChecked = 0;
+
+export function getNumMovesChecked(): number {
+  return numMovesChecked;
+}
+
+export function resetCounter(): void {
+  numMovesChecked = 0;
+}
+
 export function aiMove(
     board: Board,
     aiPlayer: number,
@@ -38,6 +48,7 @@ export function aiMove(
     if (!isMin) {
         let bestScore = -100000;
         for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
+            numMovesChecked++;
             const newBoard = cloneBoard(board);
             makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
             const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
@@ -63,6 +74,7 @@ export function aiMove(
     } else {
         let bestScore = 100000;
         for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
+            numMovesChecked++;
             const newBoard = cloneBoard(board);
             makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
             const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);

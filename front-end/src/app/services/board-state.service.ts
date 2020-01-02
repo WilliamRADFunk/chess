@@ -210,7 +210,7 @@ export class BoardStateService {
                 this._aiDifficulty + 1,
                 this._memoizationTable);
             this.makeMoves(result.moveChainIds, convertIdsToCells(this._boardState.value, result.moveChainIds));
-        }, 2000);
+        }, 20);
     }
 
     public cellClicked(cell: Cell): void {
