@@ -43,6 +43,12 @@
                     </span>
                     <span *ngIf="gameOver" class="h4 text-primary d-block mb-2 mb-sm-0">CHECK & MATE!</span>
                     <span *ngIf="opponent === 3" class="h5 d-block mb-2 mb-sm-0">Time Remaining: {{ timer }}</span>
+                    <div *ngIf="opponent === 2" class="text-center text-md-left d-block mb-2 mb-sm-0 mt-2 pl-1 py-1 border border-light rounded small">
+                        <div class="small">Configurations Checked: {{ aiThinkPacket.configsChecked | number }}</div>
+                        <div class="small">Configurations Memoized: {{ aiThinkPacket.configsMemoized | number }}</div>
+                        <div class="small">Configurations Pruned: {{ aiThinkPacket.configsPruned | number }}</div>
+                        <div class="small">Time to Calculate (sec): {{ aiThinkPacket.time }}</div>
+                    </div>
                 </div>
             </div>
             <div class="d-flex">

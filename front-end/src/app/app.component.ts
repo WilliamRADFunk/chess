@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { filter, distinctUntilChanged } from 'rxjs/operators';
 
 import { BoardStateService } from './services/board-state.service';
+import { AIThinkPacket } from './models/ai-think-packet';
 
 @Component({
     selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnDestroy, OnInit {
     private _subscriptions: Subscription[] = [];
 
     public activePlayer: number;
+    public aiThinkPacket: AIThinkPacket;
     public canSubmitMove: number = 0;
     public checkedPlayer: number = 0;
     @ViewChild('content', { static: true }) content: any;
@@ -121,6 +123,11 @@ export class AppComponent implements OnDestroy, OnInit {
                 .pipe(distinctUntilChanged())
                 .subscribe(checkedPlayer => {
                     this.checkedPlayer = checkedPlayer;
+                }),
+            this._boardStateService.currAiThinkPacket
+                .pipe(distinctUntilChanged())
+                .subscribe(thinkPacket => {
+                    this.aiThinkPacket = thinkPacket;
                 }),
             this._boardStateService.currGameStatus
                 .subscribe(gs => {

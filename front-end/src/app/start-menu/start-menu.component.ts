@@ -58,16 +58,16 @@ export class StartMenuComponent implements OnDestroy, OnInit {
     public getTooltipDiffMsg(choice: number): string {
         switch (choice) {
             case 1: {
-                return 'The AI will be clumsy and prone to the occasional mistake.';
+                return 'The AI will be clumsy and prone to the occasional mistake. ( Less than a second to decide )';
             }
             case 2: {
-                return 'The AI won\'t be much of a planner, but it won\'t be complacent.';
+                return 'The AI won\'t be much of a planner, but it won\'t be complacent. ( 10 seconds or less to decide )';
             }
             case 3: {
-                return 'The AI will be thinking ahead. An experienced human player would be at this level.';
+                return 'The AI will be thinking ahead. An experienced human player would be at this level. ( Less than a minute to decide )';
             }
             case 4: {
-                return 'The AI will have no mercy. Chance of success against this opponent is small.';
+                return 'The AI will have no mercy. Chance of success against this opponent is small. ( More than 5 minutes to decide )';
             }
             default: {
                 return 'Not a valid option';

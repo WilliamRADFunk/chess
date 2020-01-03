@@ -1,88 +1,22 @@
-const pawnAdustmentTable = [
-    [ 0, 0, 0, 0, 0, 0, 0, 0 ],
-    [ 50, 50, 50, 50, 50, 50, 50, 50 ],
-    [ 10, 10, 20, 30, 30, 20, 10, 10 ],
-    [ 5, 5, 10, 25, 25, 10, 5, 5 ],
-    [ 0, 0, 0, 20, 20, 0, 0, 0 ],
-    [ 5, -5, -10, 0, 0, -10, -5, 5 ],
-    [ 5, 10, 10, -20, -20, 10, 10, 5 ],
-    [ 0, 0, 0, 0, 0, 0, 0, 0 ]
-];
-
-const knightAdustmentTable = [
-    [ -50, -40, -30, -30, -30, -30, -40, -50 ],
-    [ 40, -20, 0, 0, 0, 0, -20, -40 ],
-    [ -30, 0, 10, 15, 15, 10, 0, -30 ],
-    [ -30, 5, 15, 20, 20, 15, 5, -30 ],
-    [ -30, 0, 15, 20, 20, 15, 0, -30 ],
-    [ -30, 5, 10, 15, 15, 10, 5, -30 ],
-    [ -40, -20, 0, 5, 5, 0, -20, -40 ],
-    [ -50, -40, -30, -30, -30, -30, -40, -50 ]
-];
-
-const bishopAdustmentTable = [
-    [ -20, -10, -10, -10, -10, -10, -10, -20 ],
-    [ -10, 0, 0, 0, 0, 0, 0, -10 ],
-    [ -10, 0, 5, 10, 10, 5, 0, -10 ],
-    [ -10, 5, 5, 10, 10, 5, 5, -10 ],
-    [ -10, 0, 10, 10, 10, 10, 0, -10 ],
-    [ -10, 10, 10, 10, 10, 10, 10, -10 ],
-    [ -10, 5, 0, 0, 0, 0, 5, -10 ],
-    [ -20, -10, -10, -10, -10, -10, -10, -20 ]
-];
-
-const rookAdustmentTable = [
-    [ 0, 0, 0, 0, 0, 0, 0, 0 ],
-    [ 5, 10, 10, 10, 10, 10, 10, 5 ],
-    [ -5, 0, 0, 0, 0, 0, 0, -5 ],
-    [ -5, 0, 0, 0, 0, 0, 0, -5 ],
-    [ -5, 0, 0, 0, 0, 0, 0, -5 ],
-    [ -5, 0, 0, 0, 0, 0, 0, -5 ],
-    [ -5, 0, 0, 0, 0, 0, 0, -5 ],
-    [ 0, 0, 0, 5, 5, 0, 0, 0 ]
-];
-
-const queenAdustmentTable = [
-    [ -20, -10, -10, -5, -5, -10, -10, -20 ],
-    [ -10, 0, 0, 0, 0, 0, 0, -10 ],
-    [ -10, 0, 5, 5, 5, 5, 0, -10 ],
-    [ -5, 0, 5, 5, 5, 5, 0, -5 ],
-    [ 0, 0, 5, 5, 5, 5, 0, -5 ],
-    [ -10, 5, 5, 5, 5, 5, 0, -10 ],
-    [ -10, 0, 5, 0, 0, 0, 0, -10 ],
-    [ -20, -10, -10, -5, -5, -10, -10, -20 ]
-];
-
-const kingAdustmentTableMiddleGame = [
-    [ -30, -40, -40, -50, -50, -40, -40, -30 ],
-    [ -30, -40, -40, -50, -50, -40, -40, -30 ],
-    [ -30, -40, -40, -50, -50, -40, -40, -30 ],
-    [ -30, -40, -40, -50, -50, -40, -40, -30 ],
-    [ -20, -30, -30, -40, -40, -30, -30, -20 ],
-    [ -10, -20, -20, -20, -20, -20, -20, -10 ],
-    [ 20, 20, 0, 0, 0, 0, 20, 20 ],
-    [ 20, 30, 10, 0, 0, 10, 30, 20 ]
-];
-
-export function getPiecePointValue(piece: number, position: number[]): number {
+export function getPiecePointValue(piece: number): number {
     switch (piece) {
-        case 1: {
-            return 100 + pawnAdustmentTable[position[0]][position[1]];
+        case 1: { // Pawn
+            return 10;
         }
-        case 2: {
-            return 500 + rookAdustmentTable[position[0]][position[1]];
+        case 2: { // Rook
+            return 50;
         }
-        case 3: {
-            return 320 + knightAdustmentTable[position[0]][position[1]];
+        case 3: { // Knight
+            return 30;
         }
-        case 4: {
-            return 330 + bishopAdustmentTable[position[0]][position[1]];
+        case 4: { // Bishop
+            return 30;
         }
-        case 5: {
-            return 900 + queenAdustmentTable[position[0]][position[1]];
+        case 5: { // Queen
+            return 90;
         }
-        case 6: {
-            return 20000 + kingAdustmentTableMiddleGame[position[0]][position[1]];
+        case 6: { // King
+            return 900;
         }
         default: {
             return 0;

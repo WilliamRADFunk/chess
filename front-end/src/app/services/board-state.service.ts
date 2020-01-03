@@ -6,6 +6,7 @@ import * as uuidv1 from 'uuid/v1';
 
 import { Board } from '../models/board';
 import { Cell } from '../models/cell';
+import { AIThinkPacket } from '../models/ai-think-packet';
 import { aiDecider } from '../utils/ai-decider';
 import { checkForEndGame } from '../utils/check-for-endgame';
 import { cloneBoard } from '../utils/clone-board';
@@ -16,7 +17,6 @@ import { makeMoves } from '../utils/make-moves';
 import { resetBoard } from '../utils/reset-board';
 import { getCapturedPiecesCount } from '../utils/get-captured-pieces-count';
 import { checkForCheck } from '../utils/check-for-check';
-import { getMemoizationTable } from '../utils/get-memoization-table';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +24,13 @@ import { getMemoizationTable } from '../utils/get-memoization-table';
 export class BoardStateService {
     private readonly _activePlayer: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     private _aiDifficulty = 1;
+    private readonly _aiThinkPacket: BehaviorSubject<AIThinkPacket> = new BehaviorSubject<AIThinkPacket>({
+        configsChecked: 0,
+        configsMemoized: 0,
+        configsPruned: 0,
+        score: null,
+        time: 0
+    });
     private readonly _boardState: BehaviorSubject<Board> = new BehaviorSubject<Board>(resetBoard());
     private readonly _clickableCellIds: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
     // 0 == not over, 1 == player 1 wins, 2 == player 2 wins.
@@ -31,7 +38,6 @@ export class BoardStateService {
     private _hostedRoomCode: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private readonly _id: string = uuidv1.default();
     private _joiningRoom: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private _memoizationTable: { [key: string]: number } = getMemoizationTable();
     private _moveChainCells: Cell[] = [];
     private readonly _moveChainIds: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
     private _onlineMethod = 1;
@@ -62,6 +68,7 @@ export class BoardStateService {
     private _timerId: number;
 
     readonly currActivePlayer: Observable<number> = this._activePlayer.asObservable();
+    readonly currAiThinkPacket: Observable<AIThinkPacket> = this._aiThinkPacket.asObservable();
     readonly currBoardState: Observable<Board> = this._boardState.asObservable();
     readonly currClickableCellIds: Observable<number[]> = this._clickableCellIds.asObservable();
     readonly currGameStatus: Observable<number> = this._gameStatus.asObservable();
@@ -207,10 +214,11 @@ export class BoardStateService {
                 this._opponentPlayerNumber.value,
                 this._activePlayer.value,
                 availablePieces,
-                this._aiDifficulty + 1,
-                this._memoizationTable);
-            this.makeMoves(result.moveChainIds, convertIdsToCells(this._boardState.value, result.moveChainIds));
-        }, 20);
+                this._aiDifficulty + 2,
+                {});
+            this._aiThinkPacket.next(result);
+            this.makeMoves(result.score.moveChainIds, convertIdsToCells(this._boardState.value, result.score.moveChainIds));
+        }, 500);
     }
 
     public cellClicked(cell: Cell): void {
@@ -294,6 +302,13 @@ export class BoardStateService {
     }
 
     public disconnectSocket(opponentTimedout?: boolean) {
+        this._aiThinkPacket.next({
+            configsChecked: 0,
+            configsMemoized: 0,
+            configsPruned: 0,
+            score: null,
+            time: 0
+        });
         // this.socket.emit('quit', { id: this._id, timedout: opponentTimedout });
     }
 

@@ -26,7 +26,7 @@ export function findAllPawnMoves(cell: Cell, boardState: Board, direction: numbe
         availableMoves.push(moveCell);
     }
     // Move vertically two spaces
-    if (!cell.dirty) {
+    if (!cell.dirty && !moveCell.value) {
         potentialRow = position[0] + (direction * 2);
         moveCell = (0 <= potentialRow && potentialRow < 8) ? cellStates[potentialRow][position[1]] : null;
         if (moveCell && !moveCell.value) {

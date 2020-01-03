@@ -8,16 +8,27 @@ import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
 import { getPiecePointValue } from './get-piece-point-value';
 import { checkForCheck } from './check-for-check';
-import { getInversePosition } from './get-inverse-position';
 
 let numMovesChecked = 0;
+let numMovesPruned = 0;
+let numMovesMemoized = 0;
 
 export function getNumMovesChecked(): number {
   return numMovesChecked;
 }
 
-export function resetCounter(): void {
+export function getNumMovesPruned(): number {
+  return numMovesPruned;
+}
+
+export function getNumMovesMemoized(): number {
+  return numMovesMemoized;
+}
+
+export function resetCounters(): void {
   numMovesChecked = 0;
+  numMovesPruned = 0;
+  numMovesMemoized = 0;
 }
 
 export function aiMove(
@@ -39,7 +50,7 @@ export function aiMove(
     }
 
     // Avoids exceeding max callstack. Also allows for variable ai difficulty.
-    if (depth <= 0 && currPlayer === aiPlayer) {
+    if (depth <= 0) {
       return calculateScore(board, aiPlayer);
     }
 
@@ -47,11 +58,12 @@ export function aiMove(
     // Pruning the tree
     if (!isMin) {
         let bestScore = -100000;
-        for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
+        const chains = getAllMoveChains(board, currPlayer, clickableIds);
+        for (const chain of chains) {
             numMovesChecked++;
             const newBoard = cloneBoard(board);
             makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
-            const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
+            const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2, depth);
 
             if (undefined === memoizationTable[bKey]) {
                 memoizationTable[bKey] = aiMove(
@@ -62,22 +74,26 @@ export function aiMove(
                   alpha,
                   beta,
                   memoizationTable);
+            } else {
+                numMovesMemoized++;
             }
 
             bestScore = Math.max(bestScore, memoizationTable[bKey]);
             alpha = Math.max(alpha, bestScore);
             if (beta <= alpha) {
+                numMovesPruned++;
                 break;
             }
         }
         return bestScore;
     } else {
         let bestScore = 100000;
-        for (const chain of getAllMoveChains(board, currPlayer, clickableIds)) {
+        const chains = getAllMoveChains(board, currPlayer, clickableIds);
+        for (const chain of chains) {
             numMovesChecked++;
             const newBoard = cloneBoard(board);
             makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
-            const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2);
+            const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2, depth);
 
             if (undefined === memoizationTable[bKey]) {
                 memoizationTable[bKey] = aiMove(
@@ -88,11 +104,14 @@ export function aiMove(
                   alpha,
                   beta,
                   memoizationTable);
+            } else {
+                numMovesMemoized++;
             }
 
             bestScore = Math.min(bestScore, memoizationTable[bKey]);
             beta = Math.min(beta, bestScore);
             if (beta <= alpha) {
+                numMovesPruned++;
                 break;
             }
         }
@@ -113,10 +132,10 @@ function calculateScore(board: Board, aiPlayer: number): number {
             }
             if (cell.player === aiPlayer) {
                 randomAICell = cell;
-                aiPlayerPieceCount += getPiecePointValue(cell.value, cell.position);
+                aiPlayerPieceCount += getPiecePointValue(cell.value);
             } else {
                 randomHumanCell = cell;
-                nonAiPlayerPieceCount -= getPiecePointValue(cell.value, getInversePosition(cell.position));
+                nonAiPlayerPieceCount -= getPiecePointValue(cell.value);
             }
         });
     });
