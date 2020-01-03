@@ -7,6 +7,10 @@ import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
 import { AIThinkPacket } from '../models/ai-think-packet';
 
+// TODO: Track last three board states to call stalemate in the threefold repetition rule.
+// TODO: Start move counter when a player has only a king, and call stalemate when it reaches 30 moves.
+// TODO: Animations for pieces changing cells is broken.
+
 export function aiDecider(
     board: Board,
     aiPlayer: number,
