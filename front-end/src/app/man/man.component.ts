@@ -17,9 +17,9 @@ import { Cell } from '../models/cell';
         trigger('fadein', [
             state('in', style({opacity: 1})),
             // fade in when created. this could also be written as transition('void => *')
-            transition(':enter', [ style({opacity: 0}), animate(1000) ]),
+            transition(':enter', [ style({opacity: 0}), animate(500) ]),
             // fade out when destroyed. this could also be written as transition('void => *')
-            transition(':leave', animate(1000, style({opacity: 0})))
+            transition(':leave', animate(500, style({opacity: 0})))
         ])
     ]
 })
@@ -62,6 +62,6 @@ export class ManComponent {
             classStyle['white-team-color'] = false;
             return classStyle;
         }
-        return {};
+        return Object.create(null);
     }
 }

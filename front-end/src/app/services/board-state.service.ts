@@ -17,6 +17,7 @@ import { makeMoves } from '../utils/make-moves';
 import { resetBoard } from '../utils/reset-board';
 import { getCapturedPiecesCount } from '../utils/get-captured-pieces-count';
 import { checkForCheck } from '../utils/check-for-check';
+import { cloneMoveHistory } from '../utils/clone-move-history';
 
 @Injectable({
     providedIn: 'root'
@@ -40,6 +41,7 @@ export class BoardStateService {
     private _joiningRoom: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _moveChainCells: Cell[] = [];
     private readonly _moveChainIds: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+    private _moveHistory: { [key: string]: number } = Object.create(null);
     private _onlineMethod = 1;
     // 1 == Local human player, 2 == AI player, 3 == Online human player.
     private _opponent: number = 1;
@@ -167,7 +169,7 @@ export class BoardStateService {
         }
         this._playerInCheck.next(checkForCheck(randomCell, randomCell, board) ? this._activePlayer.value : 0);
         this._clickableCellIds.next(findClickableIds(this._activePlayer.value, board, this._moveChainCells));
-        this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length));
+        this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length, this._moveHistory));
 
         if (!this._gameStatus.value && this._opponent === 2 && this._activePlayer.value === this._opponentPlayerNumber.value) {
             this._takeAITurn();
@@ -215,7 +217,8 @@ export class BoardStateService {
                 this._activePlayer.value,
                 availablePieces,
                 this._aiDifficulty + 2,
-                {});
+                Object.create(null),
+                cloneMoveHistory(this._moveHistory));
             this._aiThinkPacket.next(result);
             this.makeMoves(result.score.moveChainIds, convertIdsToCells(this._boardState.value, result.score.moveChainIds));
         }, 500);
@@ -245,7 +248,7 @@ export class BoardStateService {
         const chainLength = idChain.length;
         if (chainLength > 1) {
             const clonedBoard = cloneBoard(this._boardState.value);
-            makeMoves(clonedBoard, idChain.slice(), this._moveChainCells.slice());
+            makeMoves(clonedBoard, idChain.slice(), this._moveChainCells.slice(), this._moveHistory, false);
             const promotion = promotePiece(clonedBoard);
             this._clickableCellIds.next([]);
             if (promotion) {
@@ -309,6 +312,7 @@ export class BoardStateService {
             score: null,
             time: 0
         });
+        this._moveHistory = Object.create(null);
         // this.socket.emit('quit', { id: this._id, timedout: opponentTimedout });
     }
 
@@ -340,7 +344,8 @@ export class BoardStateService {
         // For promotion piece use.
         const lastCell = this._moveChainCells[1];
         // Finish moving the pieces.
-        makeMoves(this._boardState.value, ids, cells);
+        makeMoves(this._boardState.value, ids, cells, this._moveHistory, true);
+
         // Transform lastCell is piece was promoted.
         if (promotionPiece) {
             lastCell.value = promotionPiece;

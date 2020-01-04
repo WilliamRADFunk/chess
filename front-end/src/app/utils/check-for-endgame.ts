@@ -1,6 +1,13 @@
-export function checkForEndGame(activePlayer: number, clickableCellIdsLength: number): number {
+export function checkForEndGame(
+    activePlayer: number,
+    clickableCellIdsLength: number,
+    moveHistory: { [key: string]: number }
+): number {
+    // Threefold repetition rule (three repeated board positions) === stalemate
+    if (Object.keys(moveHistory).some(key => moveHistory[key] >= 3)) {
+        return 3;
     // Player not only has pieces, but available moves too.
-    if (clickableCellIdsLength) {
+    } else if (clickableCellIdsLength) {
         return 0;
     // Player has(n't) pieces left, but none that can move.
     } else {

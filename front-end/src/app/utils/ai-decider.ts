@@ -6,6 +6,7 @@ import { getAllMoveChains } from './get-all-move-chains';
 import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
 import { AIThinkPacket } from '../models/ai-think-packet';
+import { cloneMoveHistory } from './clone-move-history';
 
 // TODO: Track last three board states to call stalemate in the threefold repetition rule.
 // TODO: Start move counter when a player has only a king, and call stalemate when it reaches 30 moves.
@@ -16,7 +17,8 @@ export function aiDecider(
     currPlayer: number,
     startingPieces: number[],
     aiDifficulty: number,
-    memoizationTable: { [key: string]: number }
+    memoizationTable: { [key: string]: number },
+    moveHistory: { [key: string]: number }
 ): AIThinkPacket {
     resetCounters();
     let numMovesChecked = 0;
@@ -27,7 +29,8 @@ export function aiDecider(
         console.log('Chain under investigation: ', chain, 'depth: ', aiDifficulty);
         numMovesChecked++;
         const newBoard = cloneBoard(board);
-        makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
+        const newMoveHistory = cloneMoveHistory(moveHistory);
+        makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain), newMoveHistory, true);
         const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2, aiDifficulty);
         if (undefined === memoizationTable[bKey]) {
             memoizationTable[bKey] = aiMove(
@@ -37,7 +40,8 @@ export function aiDecider(
                 aiDifficulty - 1,
                 -100000,
                 100000,
-                memoizationTable);
+                memoizationTable,
+                newMoveHistory);
         } else {
             numMovesMemoized++;
         }

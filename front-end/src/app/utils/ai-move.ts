@@ -8,6 +8,7 @@ import { makeMoves } from './make-moves';
 import { Board } from '../models/board';
 import { getPiecePointValue } from './get-piece-point-value';
 import { checkForCheck } from './check-for-check';
+import { cloneMoveHistory } from './clone-move-history';
 
 let numMovesChecked = 0;
 let numMovesPruned = 0;
@@ -38,14 +39,20 @@ export function aiMove(
     depth: number,
     alpha: number,
     beta: number,
-    memoizationTable: { [key: string]: number }
+    memoizationTable: { [key: string]: number },
+    moveHistory: { [key: string]: number }
 ): number {
     const moveChainCells = convertIdsToCells(board, []);
     const clickableIds = findClickableIds(currPlayer, board, moveChainCells);
 
     // First move of this player's new turn. Check to see if game is already over for this board configuration.
-    const gameStatus = checkForEndGame(currPlayer, clickableIds.length);
-    if (gameStatus) {
+    const gameStatus = checkForEndGame(currPlayer, clickableIds.length, moveHistory);
+    if (gameStatus >= 3) {
+        // Stalemate is not desireable, but it is better than defeat.
+        // currPlayer !== aiPlayer means last move was ai === -50000 (half losing for ai),
+        // currPlayer === aiPlayer means last move was opponent === 50000 (half losing for ai's opponent)
+        return ((currPlayer !== aiPlayer) ? 50000 : -50000);
+    } else if (gameStatus) {
         return ((gameStatus === aiPlayer) ? 100000 : -100000);
     }
 
@@ -62,7 +69,8 @@ export function aiMove(
         for (const chain of chains) {
             numMovesChecked++;
             const newBoard = cloneBoard(board);
-            makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
+            const newMoveHistory = cloneMoveHistory(moveHistory);
+            makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain), newMoveHistory, true);
             const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2, depth);
 
             if (undefined === memoizationTable[bKey]) {
@@ -73,7 +81,8 @@ export function aiMove(
                   depth - 1,
                   alpha,
                   beta,
-                  memoizationTable);
+                  memoizationTable,
+                  newMoveHistory);
             } else {
                 numMovesMemoized++;
             }
@@ -92,7 +101,8 @@ export function aiMove(
         for (const chain of chains) {
             numMovesChecked++;
             const newBoard = cloneBoard(board);
-            makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain));
+            const newMoveHistory = cloneMoveHistory(moveHistory);
+            makeMoves(newBoard, chain.slice(), convertIdsToCells(newBoard, chain), newMoveHistory, true);
             const bKey = convertBoardToKey(newBoard, currPlayer === 2 ? 1 : 2, depth);
 
             if (undefined === memoizationTable[bKey]) {
@@ -103,7 +113,8 @@ export function aiMove(
                   depth - 1,
                   alpha,
                   beta,
-                  memoizationTable);
+                  memoizationTable,
+                  newMoveHistory);
             } else {
                 numMovesMemoized++;
             }

@@ -156,12 +156,18 @@
 
 #modal-gameover-body,
 #modal-gameover-footer,
-#modal-gameover-title {
+#modal-gameover-title-winner
+#modal-gameover-title-stalemate {
     border: none;
     box-shadow: none;
 
     h4 {
         font-size: 12vw;
+        text-align: center;
+    }
+
+    .h5 {
+        font-size: 4vw;
         text-align: center;
     }
 }
