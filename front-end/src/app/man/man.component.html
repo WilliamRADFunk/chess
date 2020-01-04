@@ -1,1 +1,8 @@
-<div [ngClass]="getClassStyling()" [@fadein]="'in'"></div>
+<ng-container *ngIf="cell.player">
+    <div [ngClass]="getClassStyling()" [@fadein]="'in'"></div>
+</ng-container>
+<ng-template #player2>
+    <ng-container *ngIf="cell.player === 2;">
+        <div [ngClass]="getClassStyling()" [@fadein]="'in'"></div>
+    </ng-container>
+</ng-template>
