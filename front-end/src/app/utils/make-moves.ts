@@ -31,6 +31,5 @@ export function makeMoves(
             moveHistory[bKey] = 0;
         }
         moveHistory[bKey]++;
-        console.log('MoveHistory', moveHistory);
     }
 }

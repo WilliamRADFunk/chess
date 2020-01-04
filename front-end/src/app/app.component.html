@@ -129,17 +129,18 @@
         <div class="before"></div>
         <div class="after"></div>
     </div>
-    <ng-container *ngIf="gameOver !== 3; else stalemate3">
+    <ng-container *ngIf="gameOver >= 3; else stalemate">
         <div class="modal-header" id="modal-gameover-title-winner">
             <h4 class="modal-title text-center text-white text-shadow">PLAYER {{gameOver}} WINS!</h4>
         </div>
     </ng-container>
-    <ng-template #stalemate3>
+    <ng-template #stalemate>
         <div class="modal-header" id="modal-gameover-title-stalemate">
             <h4 class="modal-title text-center text-white text-shadow">
                 STALEMATE!
                 <br/>
-                <span class="modal-title text-center text-white text-shadow h5">** 3-fold Repetition Rule **</span>
+                <span *ngIf="gameOver === 3" class="modal-title text-center text-white text-shadow h5">** 3-fold Repetition Rule **</span>
+                <span *ngIf="gameOver === 4" class="modal-title text-center text-white text-shadow h5">** No Valid Moves Rule **</span>
             </h4>
         </div>
     </ng-template>

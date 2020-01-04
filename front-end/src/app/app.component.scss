@@ -156,18 +156,18 @@
 
 #modal-gameover-body,
 #modal-gameover-footer,
-#modal-gameover-title-winner
+#modal-gameover-title-winner,
 #modal-gameover-title-stalemate {
     border: none;
     box-shadow: none;
 
-    h4 {
-        font-size: 12vw;
+    & h4 {
+        font-size: 8vw;
         text-align: center;
     }
 
-    .h5 {
-        font-size: 4vw;
+    & .h5 {
+        font-size: 3vw;
         text-align: center;
     }
 }
@@ -177,8 +177,8 @@
 }
 
 $particles: 50;
-$width: 500;
-$height: 500;
+$width: 450;
+$height: 450;
 
 // Create the explosion...
 $box-shadow: ();

@@ -167,9 +167,10 @@ export class BoardStateService {
                 break;
             }
         }
-        this._playerInCheck.next(checkForCheck(randomCell, randomCell, board) ? this._activePlayer.value : 0);
+        const isInCheck = checkForCheck(randomCell, randomCell, board);
+        this._playerInCheck.next(isInCheck ? this._activePlayer.value : 0);
         this._clickableCellIds.next(findClickableIds(this._activePlayer.value, board, this._moveChainCells));
-        this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length, this._moveHistory));
+        this._gameStatus.next(checkForEndGame(this._activePlayer.value, this._clickableCellIds.value.length, this._moveHistory, isInCheck));
 
         if (!this._gameStatus.value && this._opponent === 2 && this._activePlayer.value === this._opponentPlayerNumber.value) {
             this._takeAITurn();
@@ -341,29 +342,38 @@ export class BoardStateService {
         this._readyToSubmit.next(0);
         const ids = moveChainIds || this._moveChainIds.value;
         const cells = moveChainCells || this._moveChainCells;
+
         // For promotion piece use.
-        const lastCell = this._moveChainCells[1];
+        const lastCellPosition = cells[1].position;
+
         // Finish moving the pieces.
         makeMoves(this._boardState.value, ids, cells, this._moveHistory, true);
+
+        // For promotion piece use.
+        const cellStates = this._boardState.value.cellStates;
+        const lastCell = cellStates[lastCellPosition[0]][lastCellPosition[1]];
 
         // Transform lastCell is piece was promoted.
         if (promotionPiece) {
             lastCell.value = promotionPiece;
         }
-        // Done moving & promoting pieces, time to let the next player have a go.
-        this._changeTurn();
-        const boardState = this._boardState.value;
-        if (this._opponent === 3) {
-            boardState.activePlayer = this._activePlayer.value;
-            boardState.gameStatus = this._gameStatus.value;
-            // this.socket.emit('movement', { board: boardState, id: this._id, roomCode: this._hostedRoomCode.value});
-            this._clickableCellIds.next([]);
-            this._readyToSubmit.next(0);
-            this._moveChainIds.next([]);
-            this._moveChainCells = [];
-        }
-        this._player1Panel.next(getCapturedPiecesCount(boardState, 2));
-        this._player2Panel.next(getCapturedPiecesCount(boardState, 1));
+
+        setTimeout(() => {
+            // Done moving & promoting pieces, time to let the next player have a go.
+            this._changeTurn();
+            const boardState = this._boardState.value;
+            if (this._opponent === 3) {
+                boardState.activePlayer = this._activePlayer.value;
+                boardState.gameStatus = this._gameStatus.value;
+                // this.socket.emit('movement', { board: boardState, id: this._id, roomCode: this._hostedRoomCode.value});
+                this._clickableCellIds.next([]);
+                this._readyToSubmit.next(0);
+                this._moveChainIds.next([]);
+                this._moveChainCells = [];
+            }
+            this._player1Panel.next(getCapturedPiecesCount(boardState, 2));
+            this._player2Panel.next(getCapturedPiecesCount(boardState, 1));
+        }, 10);
     }
 
     public reset(playerNumber?: number, opponentPlayerNumber?: number): void {

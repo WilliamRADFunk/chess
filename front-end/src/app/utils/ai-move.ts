@@ -45,8 +45,26 @@ export function aiMove(
     const moveChainCells = convertIdsToCells(board, []);
     const clickableIds = findClickableIds(currPlayer, board, moveChainCells);
 
+    // Checking for no valid moves rule of stalemate.
+    let isInCheck;
+    if (!clickableIds.length) {
+        let randomCell;
+        for (const cols of board.cellStates) {
+            for (const col of cols) {
+                if (col.player === currPlayer) {
+                    randomCell = col;
+                    break;
+                }
+            }
+            if (randomCell) {
+                break;
+            }
+        }
+        isInCheck = checkForCheck(randomCell, randomCell, board);
+    }
+
     // First move of this player's new turn. Check to see if game is already over for this board configuration.
-    const gameStatus = checkForEndGame(currPlayer, clickableIds.length, moveHistory);
+    const gameStatus = checkForEndGame(currPlayer, clickableIds.length, moveHistory, isInCheck);
     if (gameStatus >= 3) {
         // Stalemate is not desireable, but it is better than defeat.
         // currPlayer !== aiPlayer means last move was ai === -50000 (half losing for ai),
