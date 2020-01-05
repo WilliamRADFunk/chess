@@ -195,7 +195,10 @@
     <div *ngIf="activePage === 15" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          Stalemate 01: If a player is unable to move without putting themselves into check, the game is considered a stalemate. 
+          Stalemate 01: No Valid Moves Rule:
+          <br/>
+          <br/>
+          If a player is unable to move without putting themselves into check, the game is considered a stalemate.
           <br/>
           <br/>
           <div class="text-center"><img class="img-fluid" src="assets/images/chess-help-15.jpg"/></div>
@@ -205,10 +208,10 @@
     <div *ngIf="activePage === 16" class="d-flex justify-content-center">
       <div class="col text-left text-white pb-2 pt-2">
         <div class="h4">
-          Stalemate 02: When a player has lost all of their pieces save the king,
+          Stalemate 02: Threefold Repetition Rule:
           <br/>
           <br/>
-          they can still manage a stalemate if they survive for 30 turns without going into checkmate.
+          When the same board configuration occurs three time (not necessarily one after another), the game is considered stalemate.
         </div>
       </div>
     </div>
