@@ -64,7 +64,8 @@ export class StartMenuComponent implements OnDestroy, OnInit {
                 return 'The AI won\'t be much of a planner, but it won\'t be complacent. ( 10 seconds or less to decide )';
             }
             case 3: {
-                return 'The AI will be thinking ahead. An experienced human player would be at this level. ( Less than a minute to decide )';
+                return 'The AI will be thinking ahead. An experienced human player would be at this level.'
+                  + ' ( Less than a minute to decide )';
             }
             case 4: {
                 return 'The AI will have no mercy. Chance of success against this opponent is small. ( More than 5 minutes to decide )';

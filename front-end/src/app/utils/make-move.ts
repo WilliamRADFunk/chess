@@ -29,7 +29,7 @@ export function makeMove(boardState: Board, row1: number, col1: number, row2: nu
                 position: rookBefore.position,
                 value: 0
             };
-            cellStates[row1][5] = newRookAfterCell
+            cellStates[row1][5] = newRookAfterCell;
             cellStates[row1][7] = newRookBeforeCell;
         } else if (cellStates[row1][0].value === 2 && !cellStates[row1][0].dirty) {
             rookAfter = cellStates[row1][3];
@@ -51,7 +51,7 @@ export function makeMove(boardState: Board, row1: number, col1: number, row2: nu
                 position: rookBefore.position,
                 value: 0
             };
-            cellStates[row1][3] = newRookAfterCell
+            cellStates[row1][3] = newRookAfterCell;
             cellStates[row1][0] = newRookBeforeCell;
         }
 
@@ -73,7 +73,7 @@ export function makeMove(boardState: Board, row1: number, col1: number, row2: nu
                 position: cellStateBefore.position,
                 value: 0
             };
-            cellStates[row2][col2] = newAfterCell
+            cellStates[row2][col2] = newAfterCell;
             cellStates[row1][col1] = newBeforeCell;
         }
     } else {
@@ -94,7 +94,7 @@ export function makeMove(boardState: Board, row1: number, col1: number, row2: nu
             value: 0
         };
         // Piece just moves if not castling.
-        cellStates[row2][col2] = newAfterCell
+        cellStates[row2][col2] = newAfterCell;
         cellStates[row1][col1] = newBeforeCell;
     }
 }
