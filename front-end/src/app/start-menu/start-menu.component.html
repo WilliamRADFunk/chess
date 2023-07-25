@@ -20,14 +20,14 @@
                         type="button">Start Game</button>
                     <ng-container *ngIf="isColorOptionAvailable()">
                         <button
-                            class="btn btn-secondary text-shadow shadow rounded"
+                            class="btn btn-white text-shadow shadow rounded"
                             (click)="startGame(1)"
                             [ngbTooltip]="getTooltipStartMsg(1)"
                             tooltipClass="chess-tooltip"
                             placement="bottom"
                             type="button">Start Game</button>
                         <button
-                            class="btn btn-danger text-shadow shadow rounded ml-2"
+                            class="btn btn-black text-shadow shadow rounded ml-2"
                             (click)="startGame(2)"
                             [ngbTooltip]="getTooltipStartMsg(2)"
                             tooltipClass="chess-tooltip"
@@ -41,7 +41,16 @@
     <div class="d-flex justify-content-center">
         <div class="col text-center text-white mt-5">
             <button
+                *ngIf="!isColorOptionAvailable()"
                 class="btn btn-sm btn-light btn-default text-shadow shadow rounded"
+                (click)="enterHelp()"
+                ngbTooltip="See Help Screen"
+                tooltipClass="chess-tooltip"
+                placement="top"
+                type="button">Tutorial</button>
+            <button
+                *ngIf="isColorOptionAvailable()"
+                class="btn btn-sm btn-primary btn-default text-shadow shadow rounded"
                 (click)="enterHelp()"
                 ngbTooltip="See Help Screen"
                 tooltipClass="chess-tooltip"
